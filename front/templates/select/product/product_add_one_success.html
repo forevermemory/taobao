@@ -1,0 +1,25 @@
+{% extends "select/product/product_base.html" %}
+
+
+
+{% block content %}
+
+<link href="{% static 'css/product/product_add_one.css' %}" rel="stylesheet"> 
+
+
+<div class="container-fluid">
+    <div class="cpm-add-one-success text-center">
+        <img src=" {% static 'images/example.png' %}" alt="" class="">
+
+        <div class="cpm-add-one-title1">操作成功</div>
+        <div class="cpm-add-one-title2">操作成功</div>
+        <div class="text-center cpm-add-one-footer">
+            <a href="javascript:void(0)" class="btn btn-primary btn-lg" onclick="watchList(this)" >查看列表</a>
+            <a href="javascript:void(0)"  class="btn btn-default btn-lg" data-pid="{{pid}}" onclick="returnModify(this)">返回修改</a>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

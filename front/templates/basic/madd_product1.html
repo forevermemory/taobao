@@ -1,0 +1,99 @@
+{% extends "basic/basic_base.html" %}
+
+
+
+{% block content %}
+
+<link href="{% static 'css/product/product_add_multi.css' %}" rel="stylesheet"> 
+<link href="{% static 'css/product/step.css' %}" rel="stylesheet">  <!--进度条-->
+<script src="{% static 'js/step.js' %}"></script><!--进度条-->
+<link href="{% static 'css/index/daterangepicker.css' %}" rel="stylesheet">
+
+<!-- http://www.fxss5201.cn/project/plugin/steps/2.0/      文档 -->
+
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">{{msg}}</div>
+        <!-- <div class="pull-right"><span class="cpm-input-title-span">*</span>为必填选项</div> -->
+        
+    </div>
+
+    <div class="container-fluid cpm-multi-content">
+    <form action="" method="post" enctype="multipart/form-data" id="mulStep1Form">
+        <div class="cpm-multi-head">
+            <!-- 进度条 -->
+            <div id="steps1"></div>
+
+        </div>
+        <div class="cpm-multi-body">
+            {% if error %}
+            
+                <h3 class="text-warning">{{error}}</h3>
+            {% else %}
+            {% endif %}
+           
+
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'images/screen.jpg' %}"  style="height:100px;">
+                    </a>
+                </div>
+                <div class="media-body pt-3">
+                    <h4 class="media-heading">填写导入的模板信息</h4>
+                    <h5 class="text-muted">请按照数据模板的格式准备导入数据，模板中的表头名称不可更改，表头行不能删除</h5>
+                    <a href="{% url 'basic:add_multi' %}?template=1">供应商模板</a>
+                    <a href="{% url 'basic:add_multi' %}?template=2">商品信息模板</a>
+                    <a href="{% url 'basic:add_multi' %}?template=3">店铺和产品关系模板</a>
+                </div>
+            </div>
+
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'images/screen.jpg' %}" style="height:100px;">
+                    </a>
+                </div>
+                <div class="media-body pt-3">
+                    <h4 class="media-heading">上传填好的模板信息表</h4>
+                    <h5 class="text-muted">文件后缀名必须为xlsx(即Excel格式),文件大小不得大于10M</h5>
+                    <input type="file" name="template" id="mImportFile" >
+                </div>
+            </div>
+        </div>
+        <div class="cpm-multi-btn text-center">
+            {% csrf_token %}
+            {% if error %}
+            <a href="{% url 'basic:add_multi' %}?step=3" class="btn btn-primary btn-lg">查看状态</a>
+            {% else %}
+            <button class="btn btn-primary btn-lg" id="mimportNext">下一步</button>
+            {% endif %}
+        </div>
+    </form>
+    </div>
+
+</div>
+
+<script>
+var steps1 = steps({
+    el: "#steps1",
+    data: [
+        { title: "", description: "上传文件" },
+        { title: "", description: "执行导入" },
+        { title: "", description: "导入完成" }
+    ],
+    // active: 1,   // active :2全部显示完成
+    // center: true,
+    dataOrder: ["title"]
+    // dataOrder: ["title", "line", "description"]
+});
+</script>
+{% endblock %}
+
+{% block basic_js %}
+<script src="{% static 'js/index/moment.min.js' %}"></script><!--进度条-->
+<script src="{% static 'js/index/daterangepicker.js' %}"></script><!--进度条-->
+<script src="{% static 'js/basic/mul-import.js' %}"></script>
+
+{% endblock basic_js %}
+

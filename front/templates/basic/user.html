@@ -1,0 +1,276 @@
+{% extends "basic/basic_base.html" %}
+
+
+{% block basic_content %}
+<!-- 右面创建按钮 start-->
+<div class="row" >
+    <div class="col-lg-12 pull-left">
+        
+        <!-- 搜索 -->
+        <div class="input-group ">
+                <div class="col-lg-9">
+                    <button class="btn btn-success"  style="height: 40px;" onclick="addUserOpenEvent(this)">新增员工</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- 右面创建按钮 end-->
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header" style="border: none;">
+                </div>
+                <div class="card-body">
+                    <table class=" table table-responsive-sm table-bordered  table-sm cpmTable">
+                        <thead class="bg-default bg-tabel-cpm">
+                            <tr>                                                      
+                                <th class="text-center" >编码</th>                            
+                                <th class="text-center" >姓名</th>                            
+                                <th class="text-center" >账号</th>                            
+                                <th class="text-center" >邮箱</th>                            
+                                <th class="text-center" >手机</th>                            
+                                <th class="text-center" >角色</th>                            
+                                <th class="text-center" >学历</th>                            
+                                <th class="text-center" >入职日期</th>                            
+                                <th class="text-center" >联系地址</th>                            
+                                <th class="text-center" >常住地</th>                            
+                                <th class="text-center">操作</th>                            
+                            </tr>                             
+                        </thead>
+                        <tbody>
+                            {% for item in  items %}
+                            <tr>
+                                <td class="text-center">{{item.extension.code}}</td>
+                                <td class="text-center">{{item.extension.name}}</td>
+                                <td class="text-center">{{item.username}}</td>
+                                <td class="text-center">{{item.email}}</td>
+                                <td class="text-center">{{item.extension.telephone}}</td>
+                                <td class="text-center">
+                                    {% for role in item.roles %}
+                                        <span data-id="{{role.id}}" data-name="{{role.name}}">{{role.desc}}</span>
+                                    {% endfor %}
+                                </td>
+                                <td class="text-center">{{item.extension.xueli}}</td>
+                                <td class="text-center">{{item.extension.in_date}}</td>
+                                <td class="text-center">{{item.extension.address}}</td>
+                                <td class="text-center">{{item.extension.address_now}}</td>
+                                <td class="text-center">
+                                        <a href="javascript:void(0);" onclick="editUserClickEvent(this)" data-id="{{item.id}}"> 编辑</a> &nbsp;|&nbsp;
+                                        <a href="javascript:void(0);" onclick="changeUserPasswordClickEvent(this)" data-id="{{item.id}}"> 修改密码</a> &nbsp;
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+{% include 'page.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock basic_content %}
+
+
+
+
+
+{% block modal %}
+
+<div class="modal" id="addUserEvent" aria-hidden="true" style="overflow-y: auto;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >添加员工</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+        <!-- modal start -->
+        <form class="form-horizontal" action="" method="post" >
+            <!-- 对应的产品　id -->
+            {% csrf_token %}
+            <input type="hidden" name="u-id" id="addUserHiddenInputId" value="" />  
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserCode"><span class="text-danger">*</span>&nbsp;编码</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserCode" type="text" name="u-code" value="" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserUsername"><span class="text-danger">*</span>&nbsp;账号</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserUsername" type="text" name="u-username" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserName"><span class="text-danger">*</span>&nbsp;姓名</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserName" type="text" name="u-name" value="" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserPassword"><span class="text-danger">*</span>&nbsp;密码</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserPassword" type="text" name="u-password" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserTelephone"><span class="text-danger">*</span>&nbsp;手机</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserTelephone" type="text" name="u-telephone" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserXueli"><span class="text-danger">*</span>&nbsp;学历</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserXueli" type="text" name="u-xueli" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserRole"><span class="text-danger">*</span>&nbsp;角色</label>
+                <div class="col-md-9">
+                    <input type="hidden" name="" id="EditRawRoleIds" value="">
+                    <input type="text" data-id="" name="u-role" placeholder="" class="form-control cpm-input" id="addUserRole"onclick="ShowSubModal(this)" readonly>
+                 
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserAddress"><span class="text-danger">*</span>&nbsp;联系地址</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserAddress" type="text" name="u-address" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserAddressNow"><span class="text-danger">*</span>&nbsp;常住地</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserAddressNow" type="text" name="u-address-now" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addUserEmail">邮箱</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addUserEmail" type="email" name="" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+        </form>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=addUserCloseEvent(this) id="saveUserButton">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="deleteUserEvent" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >是否确认删除该用户</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <span class="help-block text-danger alertMsg" id="deleteUserCloseEventAlertMsg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=deleteUserCloseEvent(this) id="deleteUserCloseEventSaveButton" >确认删除</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="changeUserPasswordEvent" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >请输入新的密码</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <span class="help-block text-danger alertMsg" id="changeUserPasswordCloseEventAlertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="ChangeNewPassword">请输入新密码</label>
+                <div class="col-md-9">
+                    <input type="hidden" name="" id="changePasswordHiddenInput">
+                    <input class="form-control" id="ChangeNewPassword" type="text" name="changeNewPassword" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=changeUserPasswordCloseEvent(this) id="changeUserpasswordCloseEventSaveButton">确认修改</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 测试多级弹框 modal -->
+
+<div class="modal" id="ShowSubModalChooseRole" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal_title_role">选择员工角色
+                </h4>&nbsp;&nbsp;
+                <span id="modal_title_role_alert" class="text-danger"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <input type="hidden" name="" value="" id="ChooseUserRoleModelHiddenInput">
+            </div>
+            <div class="modal-body">
+                    <!-- modal start -->
+                <div class="col-md-9 col-form-label" id="checkBoxModal">
+                    <!-- <div class="form-check checkbox">
+                        <input class="form-check-input" id="check1" type="checkbox" value="">
+                        <label class="form-check-label" for="check1">Option 1</label>
+                    </div> -->
+
+                </div>
+            <!-- modal end -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick=ShowSubModalButton(this)>保存</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+{% endblock modal %}
+
+
+
+{% block js %}
+<script src="{% static 'js/basic/user.js' %}"></script>
+
+
+{% endblock js %}

@@ -1,0 +1,391 @@
+{% extends "select/product/product_base.html" %}
+{% block stylesheet %}
+
+
+
+{% endblock stylesheet %}
+
+{% block content %}
+<!-- <p>{{ msg }}</p> -->
+<link href="{% static 'css/product/product_list.css' %}" rel="stylesheet"> 
+
+
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">待分货点货列表</div>
+        <!-- <div class="pull-right">为必填选项</div> -->
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <!-- 基本信息 start-->
+        <div class="cpm-product-basic">
+            <div class="second-bar text-left">
+                条件查询
+            </div>
+            <div class="container-fluid">
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-code">编码</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-code" type="text" name="code" placeholder="" value="{{code}}" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-name">名称</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-name" type="text" name="name" placeholder="" value="{{name}}" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-pinlei">品类</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-pinlei" type="text" name="pinlei" placeholder="" value="{{pinlei}}" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-charger">负责人</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input type="text" name="charger" placeholder="" class="form-control cpm-input" id="pl-charger"onclick="ProductAddModelOpenEvent(this)" readonly value="{{charger_val}}" data-id="{{chargers}}">
+                    </div>
+                </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-tag-jibie">级别</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <select class="form-control cpm-input " name="jibie" id="pl-tag-jibie">
+                                    <option value="" {% if jibie == '' %} selected {% endif %}>------</option>
+                                    <option value="0" {% if jibie == '0' %} selected {% endif %} >普通</option>
+                                    <option value="1" {% if jibie == '1' %} selected {% endif %}>核心</option>
+                                    <option value="2" {% if jibie == '2' %} selected {% endif %}>重点</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-supplier">供应商</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="supplier" placeholder="" class="form-control cpm-input" id="pl-supplier"onclick="ProductAddModelOpenEvent(this)" readonly value="{{suppiler_val}}" data-id="{{suppliers}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-start">采购开始日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="start" placeholder="" class="form-control cpm-input" id="pl-start" readonly value="{{start}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-end">采购结束日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="end" placeholder="" class="form-control cpm-input" id="pl-end"  readonly value="{{end}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-state">到货状态</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                                <select class="form-control cpm-input " name="state" id="pl-state">
+                                    <option value="" {% if state == '' %} selected {% endif %}>------</option>
+                                    <option value="0" {% if state == '0' %} selected {% endif %} >正常</option>
+                                    <option value="1" {% if state == '1' %} selected {% endif %}>超期</option>
+                                    <option value="2" {% if state == '2' %} selected {% endif %}>严重超期</option>
+                                </select>
+                        </div>
+                    </div>
+            </div>  
+        </div>
+
+        <!-- 基本信息 end-->          
+                    
+        </div>
+        <!-- 标签属性 end-->
+            <!-- 三个按钮　查询　重置　扩展 -->
+        <div class="container-fluid">
+            <span class="btn btn-success " onclick="removeAllQueryConditions(this)" data-query-url="{{query_url}}">重置</span>
+            <span class="btn btn-success " onclick="exeQueryFenAndDian(this)" data-query-url="{{query_url}}">查询</span>
+        </div >
+    </form>  
+    
+        <!-- SKU start-->
+        <div class="cpm-product-basic">
+            <div class="second-bar text-center font-2xl">
+                    待分货点货列表
+            </div>
+            <div class="container-fluid">
+                
+                <table class="table table-responsive-sm table-bordered font-sm">
+                    <thead class="bg-tabel-cpm">
+                        <tr>
+                            <th class="text-center">产品缩略图</th>
+                            <th class="text-center">编码</th>
+                            <th class="text-center">名称</th>
+                            <th class="text-center">品类</th>
+                            <th class="text-center">产品负责人</th>
+                            <th class="text-center">级别</th>
+                            <th class="text-center">供应商</th>
+                            <th class="text-center">创建日期</th>
+                            <th class="text-center">采购日期</th>
+                            <th class="text-center">预计到货日期</th>
+                            <th class="text-center">到货状态</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td class="text-center">
+                                <img src="{{base_domain}}{{item.images.sku_image}}" alt="" width="30px;"  onmouseenter="skuImageExpend(this)" onmouseleave="skuImageReduce(this)">
+                            </td>
+                            <td class="text-center">{{item.code}}</td>
+                            <td class="text-center">{{item.name}}</td>
+                            <td class="text-center">{{item.cate.name}}</td>
+                            <td class="text-center">
+                                {% for  d in  item.chargers %}
+                                    {{d.extension.name}}&nbsp;
+                                {% endfor %}
+                            </td>
+                            <td class="text-center">{{item.get_jibie_display}}</td>
+                            <td class="text-center">
+                                {% for  d in  item.suppliers %}
+                                    {{d.name}}&nbsp;
+                                {% endfor %}
+                            </td>
+                  
+                            <td class="text-center">{{item.created_at}}</td>
+                            <td class="text-center">{{item.order.purchase_date|date:"Y/m/d"}}</td>
+                            <td class="text-center">{{item.order.expected_data|date:"Y/m/d"}}</td>
+                            <td class="text-center {% if item.good_e_state != '正常' %} text-danger  {% endif %}">{{item.good_e_state}}</td>
+                            <td  class="text-center">
+                                <a href="javascript:void(0);" data-id="{{item.id}}"  data-code="{{item.code}}" data-name="{{item.name}}" data-charger="{% for  d in  item.chargers %} {{d.extension.name}}&nbsp;{% endfor %}"  data-c_date="{{item.order.purchase_date|date:'Y/m/d'}}"data-e_date="{{item.order.expected_data|date:'Y/m/d'}}
+                                "data-desc="{{item.desc}}" 
+                                onclick="fenAndDianBtnClick(this)">点货</a>
+                                <!-- <a href="javascript:void(0);"   onclick="deleteDingweiConfirmClickEvent(this)" data-id="{{item.id}}" id=""> 删除</a> -->
+                            </td>
+                        </tr>
+                        {% endfor %}
+      
+                    </tbody>
+                </table>
+            </div>  
+        </div>
+        <!-- SKU信息 end-->
+
+
+   
+</div>
+<!-- 放大图片 -->
+<div id="sku-img-expend" style="display: none;">
+    <img src="" alt="">
+</div>
+
+<nav class="text-center">
+        <ul class="pagination p">
+            {#上一页#}
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a href="?p={{ page_obj.previous_page_number }}{{url_query}}" class="page-link">上一页</a></li>
+            {% else %}
+                <li class="disabled"><a href="javascript:void(0);">上一页</a></li>
+            {% endif %}
+
+            {# 是否需要出现三个点 #}
+            {% if left_has_more %}
+                <li class="page-item"><a href="?p=1" class="page-link">1</a></li>
+                <li class="page-item"><a href="javascript:void(0);" class="page-link">...</a></li>
+            {% endif %}
+
+            {# 左边的页码 #}
+            {% for left_page in left_pages %}
+                <li class="page-item"><a href="?p={{ left_page }}{{url_query}}" class="page-link">{{ left_page }}</a></li>
+            {% endfor %}
+
+            {# 当前的页面 #}
+            <li class="page-item"><a href="?p={{ current_page }}{{url_query}}" class="page-link active">{{ current_page }}</a></li>
+
+            {# 右边的页码 #}
+            {% for right_page in right_pages %}
+                <li class="page-item"><a href="?p={{ right_page }}{{url_query}}" class="page-link">{{ right_page }}</a></li>
+            {% endfor %}
+
+            {# 用来控制右边三个点 #}
+            {% if right_has_more %}
+                <li class="page-item"><a href="javascript:void(0);" class="page-link">...</a></li>
+                <li class="page-item"><a href="?p={{ num_pages }}{{url_query}}" class="page-link">{{ num_pages }}</a></li>
+            {% endif %}
+
+            {#下一页#}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a href="?p={{ page_obj.next_page_number }}{{url_query}}" class="page-link">下一页</a></li>
+            {% else %}
+                <li class="disabled"><a href="javascript:void(0);" class="page-link">下一页</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock content %}
+
+
+
+{% block modal %}
+
+
+
+
+        <div class="modal" id="ProductListMultiSelectModel" aria-hidden="true" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                     <h4 class="modal-title" id="modalTitleQuery"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <input type="hidden" name="" value="" id="ProductQueryModelHiddenInput">
+                </div>
+                <div class="modal-body">
+                        <!-- modal start -->
+                <div class="row">
+                    <div class="col-sm-5">
+                        <select name="from" id="multiselect" class="form-control" size="8" multiple="multiple">
+                        </select>
+                    </div>
+                    
+                    <div class="col-sm-2">
+                        <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                        <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                        <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                        <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                    </div>
+                    
+                    <div class="col-sm-5">
+                        <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple"></select>
+                    </div>
+                </div>
+                <!-- modal end -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick=ProductAddModelCloseEvent()>保存</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- 评审弹出框 -->
+        <div class="modal bs-example-modal-lg" id="purchaseIndexModal" aria-hidden="true" >
+            <div class="modal-dialog modal-lg">
+                <form action="" id="purchaseForm">
+                <div class="modal-content">
+                <div class="modal-header">
+                     <h4 class="modal-title" id="modalTitleQuery">分货点货 &nbsp;&nbsp;&nbsp;</h4>
+                     <span id="modalTitlePurchaseIndexAlert" class="text-danger"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- modal start -->
+                    <!-- readonly -->
+                    <div class="row">
+
+                    
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="purchaseIndexGoodId"> <span class="text-danger"></span>产品编码</label>
+                        <div class="col-md-9">
+                                <input type="hidden" name="good_id" value="" id="purchaseIndexGoodId">
+                                <input  class="form-control" type="text" name="good_code" value="" id="purchaseIndexGoodCode" readonly>
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="purchaseIndexGoodName"> <span class="text-danger"></span>产品名称</label>
+                        <div class="col-md-9">
+                                <input  class="form-control" type="text" name="good_name" value="" id="purchaseIndexGoodName" readonly>
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row col-lg-6">
+                            <label class="col-md-3 col-form-label" for="purchaseIndexGoodPurchaser"><span class="text-danger"></span>采购负责人</label>
+                            <div class="col-md-9">
+                                <input  class="form-control" type="text" name="good_purchaser" value="" id="purchaseIndexGoodPurchaser" readonly>
+                                <span class="help-block text-danger alertMsg"></span>
+                            </div>
+                        </div>
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="purchaseIndexGoodPdate"> <span class="text-danger"></span>采购日期</label>
+                        <div class="col-md-9">
+                                <input  class="form-control" type="text" name="good_p_date" value="" id="purchaseIndexGoodPdate" readonly>
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="purchaseIndexGoodEdate"> <span class="text-danger"></span>预计到货日期</label>
+                        <div class="col-md-9">
+                                <input  class="form-control" type="text" name="good_e_date" value="" id="purchaseIndexGoodEdate" readonly>
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="purchaseIndexGoodDesc"> <span class="text-danger"></span>备注:</label>
+                        <div class="col-md-9">
+                                <textarea  class="form-control" type="text" name="good_desc" value="" id="purchaseIndexGoodDesc" readonly></textarea>
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- input -->
+                    <div class="row">
+
+                    
+                    <div class="form-group row col-lg-6">
+                            <label class="col-md-3 col-form-label" for="purchaseIndexGoodPurchaser"><span class="text-danger"></span>点货负责人</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="goodDianhuoUser" name="good_dianhuo_user" >
+                                    <option value="{{request.user.id}}">------</option>
+                                    {% for user in users %}
+                                    
+                                        <option value="{{user.id}}">{{user.extension.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="help-block text-danger alertMsg"></span>
+                            </div>
+                        </div>
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="goodDianhuoDetail"> <span class="text-danger"></span>点货情况</label>
+                        <div class="col-md-9">
+                                <select class="form-control" id="goodDianhuoDetail" name="good_dianhuo_detail" >
+                                    {% for detail in details %}
+                                        <option value="{{detail.0}}">{{detail.1}}</option>
+                                    {% endfor %}
+                                </select>
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="GoodDianhuoDesc"> <span class="text-danger"></span>点货备注:</label>
+                        <div class="col-md-9">
+                                <textarea  class="form-control" type="text" name="good_dianhuo_desc" value="" id="GoodDianhuoDesc" ></textarea>
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row col-lg-6">
+                        <label class="col-md-3 col-form-label" for="GoodDianhuoAndYanhuo"> <span class="text-danger"></span>同时通过验货</label>
+                        <div class="col-md-9">
+                                    <input class="form-check-input" id="GoodDianhuoAndYanhuo" type="checkbox" value="0">
+                            <span class="help-block text-danger alertMsg"></span>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- modal end -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick=dianAndFenModalClose() id="purchaseIndexButtonComfirm">确定</button>
+                </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        
+
+
+{% endblock modal%}
+
+
+
+
+{% block js %}
+
+<script src="{% static 'js/product/product_list.js' %}"></script>
+<script src="{% static 'js/purchase/product_fen_dian.js' %}"></script>
+<script src="{% static 'js/product/jquery.cxcalendar.min.js' %}"></script>
+
+{% endblock js %}

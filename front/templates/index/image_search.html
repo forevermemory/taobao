@@ -1,0 +1,15 @@
+{% extends 'select/index/index_base.html' %}
+
+{% block index_content %}
+
+
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="image" id="" >
+    <br>
+    <input type="submit" value="搜索">
+</form>
+
+
+{% endblock index_content %}

@@ -1,0 +1,111 @@
+{% extends "basic/basic_base.html" %}
+
+
+
+{% block content %}
+
+<link href="{% static 'css/product/product_add_multi.css' %}" rel="stylesheet"> 
+<!-- <link href="{% static 'css/basic/snipper.css' %}" rel="stylesheet">  -->
+
+
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">{{msg}}</div>
+    </div>
+<div class="pad margin no-print">
+    <div class="callout callout-info" style="margin-bottom: 0!important;">
+    <h4><i class="fa fa-info"></i> 采购建议功能说明:</h4>
+    通过统计分析进销存报表和采购订单报表的数据，提供建议采购的产品清单，以及辅助采购决策的其他信息
+    </div>
+</div>
+    <div class="container-fluid cpm-multi-content" >
+    <!-- <form action="" method="post" enctype="multipart/form-data" id="mulStep1Form"> -->
+     
+        <div class="cpm-multi-body">
+            <!-- <h3 class="text-warning">{{error}}</h3> -->
+           
+
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'images/screen.jpg' %}"  style="height:100px;">
+                    </a>
+                </div>
+                <div class="media-body pt-3">
+                    <h4 class="media-heading">销售数量和库存数量比较时，给予销售数量的参数</h4>
+                    <h5 class="text-muted">参数p,缺省设置为1</h5>
+                    <div class="input-group">
+                        <input type="text" class="pull-left text-center" id="param1" autocomplete="off" style="width:80px;height: 34px;" value="1">
+                        <div class="spinbox-buttons input-group-btn pull-left">
+                            <button type="button" class="btn spinbox-up ml-2" id="buttonP1">
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                            </button>					
+                            <button type="button" class="btn spinbox-down ml-2" id="buttonP2">
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>				
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'images/screen.jpg' %}"  style="height:100px;">
+                    </a>
+                </div>
+                <div class="media-body pt-3">
+                    <h4 class="media-heading">在统计总销量时将销售量低于n的sku删除</h4>
+                    <h5 class="text-muted">参数n,缺省设置为2</h5>
+                    <div class="input-group">
+                        <input type="text" class="pull-left text-center" id="param2" autocomplete="off" style="width:80px;height: 34px;" value="2">
+                        <div class="spinbox-buttons input-group-btn pull-left">
+                            <button type="button" class="btn spinbox-up ml-2" id="buttonN1">
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                            </button>					
+                            <button type="button" class="btn spinbox-down ml-2" id="buttonN2">
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>				
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'images/screen.jpg' %}" style="height:100px;">
+                    </a>
+                </div>
+                <div class="media-body pt-3">
+                    <h4 class="media-heading">请上传对应的文件</h4>
+                    <h5 class="text-muted">进销存报表(ti1)、采购订单报表(ti2)、供应商列表、淘汰商品列表</h5>
+                    <input type="file" name="ti1" id="ti1" style="width: 75px;display: inline-block;">
+                    <input type="file" name="ti2" id="ti2" style="width: 75px;display: inline-block;">
+                    <input type="file" name="supplier" id="supplier" style="width: 75px;display: inline-block;">
+                    <input type="file" name="taotai" id="taotai" style="width: 75px;display: inline-block;">
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="cpm-multi-btn text-center mt-2">
+            {% csrf_token %}
+            <button class="btn btn-primary btn-lg mr-5" id="Analyse">点击分析
+            </button>
+            <button class="btn btn-primary btn-lg hidden" id="AnalyseSuccess">分析成功,点击下载</button>
+        </div>
+    <!-- </form> -->
+    </div>
+
+</div>
+
+<script>
+
+</script>
+{% endblock %}
+
+{% block basic_js %}
+<script src="{% static 'js/basic/rewrite_r.js' %}"></script>
+
+{% endblock basic_js %}
+

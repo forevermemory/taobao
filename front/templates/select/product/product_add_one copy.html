@@ -1,0 +1,375 @@
+{% extends "select/product/product_base.html" %}
+
+{% block stylesheet %}
+<link href="{% static 'css/product/liandong.css' %}" rel="stylesheet"> 
+
+{% endblock stylesheet %}
+{% block content %}
+<!-- <p>{{ msg }}</p> -->
+<link href="{% static 'css/product/product_add_one.css' %}" rel="stylesheet"> 
+
+
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">{{msg}}</div>
+        <div class="pull-right"><span class="cpm-input-title-span">*</span>为必填选项</div>
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <!-- 基本信息 start-->
+        <div class="cpm-product-basic">
+            <div class="second-bar text-left">
+                基本信息
+            </div>
+            <div class="container-fluid">
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-code"><span class="cpm-input-title-span">*</span>产品编码</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <input class="form-control cpm-input" id="p-code" type="text" name="code" placeholder="" >
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-name"><span class="cpm-input-title-span">*</span>产品名称</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <input class="form-control cpm-input" id="p-name" type="text" name="code" placeholder="" >
+                    </div>
+                </div>
+
+                <!-- 品类 start -->
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-pinlei"><span class="cpm-input-title-span">*</span>品类</label>
+                    <div class="col-lg-9 cpm-lb-div">
+
+                        <div class="qrm-pinming">
+                            <div class="qrm-input-border">
+                                <input id="p-pinlei" type="text" data-final-id="" data-all-id="" name="pinlei" placeholder="请选择" class="form-control cpm-input qrm-input" readonly>
+                            </div>
+                            <div class="qrm-pinming-panel" style="display:none">
+                                <!-- 一级 -->
+                                <div class="qrm-border">
+                                    <ul class="qrm-lev-1 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+                                <!-- 二级 -->
+                                <div class="qrm-border">
+                                    <ul class="qrm-lev-2 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+                                <!-- 三级 -->
+                                <div class="qrm-border">
+                                    <ul class="qrm-lev-3 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+                                <!-- 四级 -->
+                                <div class="qrm-border">
+                                    <ul class="qrm-lev-4 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+
+                            </div>
+                            <p class="clearfix"></p>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 品类 end -->
+
+
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-pinpai"><span class="cpm-input-title-span">*</span>品牌</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <select class="form-control cpm-input " name="pinpai" id="p-pinpai">
+                            <option value="">------</option>
+                            {% for brand in brands %}
+                                <option value="{{brand.id}}">{{brand.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-charger"><span class="cpm-input-title-span">*</span>产品负责人</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <input type="text" data-raw-id="" data-id=""  name="charger" placeholder="请选择产品负责人" class="form-control cpm-input" id="p-charger"onclick="ProductAddModelOpenEvent(this)" readonly>
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-supplier"><span class="cpm-input-title-span">*</span>供应商</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <input type="text" data-raw-id="" data-id=""  name="supplier" placeholder="供应商" class="form-control cpm-input" id="p-supplier"onclick="ProductAddModelOpenEvent(this)" readonly>
+                    </div>
+                </div>
+                <!--  -->
+            </div>  
+        </div>
+        <!-- 基本信息 end-->
+        <!-- 标签属性 start-->
+        <div class="cpm-product-basic">
+            <div class="second-bar text-left">
+                    标签属性
+            </div>
+            <div class="container-fluid">
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-shiling"><span class="cpm-input-title-span">*</span>时令</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                    <select class="form-control cpm-input" name="shiling" id="p-shiling">
+                         <option value="">------</option>
+                        <option value="0">常规</option>
+                        <option value="1">冬季</option>
+                        <option value="2">夏季</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-jibie"><span class="cpm-input-title-span"></span>级别</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <select class="form-control cpm-input" name="jibie" id="p-jibie">
+                                <option value="">------</option>
+                                <option value="0">普通</option>
+                                <option value="1">核心</option>
+                                <option value="2">重点</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-pifa"><span class="cpm-input-title-span"></span>批发</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <select class="form-control cpm-input" name="pifa" id="p-pifa">
+                                <option value="">------</option>
+                                <option value="0">不可批发</option>
+                                <option value="1">可批发</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-tag-dingwei"><span class="cpm-input-title-span"></span>定位</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <input type="text" data-id="" name="dingwei" placeholder="" class="form-control cpm-input" id="p-tag-dingwei"onclick="ProductAddModelOpenEvent(this)" readonly>
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-tag-changjing"><span class="cpm-input-title-span"></span>场景</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <input type="text" data-id=""  name="changjing" placeholder="" class="form-control cpm-input" id="p-tag-changjing"onclick="ProductAddModelOpenEvent(this)" readonly value="">
+                    </div>
+                </div>
+                <div class="row col-lg-6 pull-left text-center cpm-width" style="width: 100%">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-desc"><span class="cpm-input-title-span"></span>产品描述</label>
+                    <div class="col-lg-9 cpm-lb-div">
+                        <textarea type="text" name="desc" placeholder="" class="form-control cpm-input" id="p-desc"  ></textarea>
+                        <input type="hidden" value="" id="editOneGood">
+                    </div>
+                </div>
+
+            </div>  
+        </div>
+        <!-- 标签属性 end-->
+        <!-- SKU start-->
+        <div class="cpm-product-basic">
+            <div class="second-bar text-left">
+                    SKU列表
+            </div>
+            <div class="container-fluid">
+                
+                <table class="table table-responsive-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">SKU缩略图</th>
+                            <th class="text-center">SKU编码</th>
+                            <th class="text-center">SKU名称</th>
+                            <th class="text-center">长</th>
+                            <th class="text-center">宽</th>
+                            <th class="text-center">高</th>
+                            <th class="text-center">重量</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td width="10%" class="text-center"><img src=" {% static 'images/example.png' %}" alt="" style="width: 30px;height:30px;"></td>
+                            <td class="text-center">001</td>
+                            <td class="text-center">name</td>
+                            <td class="text-center">99</td>
+                            <td class="text-center">99</td>
+                            <td class="text-center">99</td>
+                            <td class="text-center">99</td>
+                            <td  class="text-center">
+                                <a href="#">修改</a> &nbsp;|&nbsp;
+                                <a href="#">删除</a>
+                            </td>
+                        </tr>
+                        <!-- 这一行固定 -->
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-center"><span class="btn btn-success" onclick="addProductSUKOpenEvent(this)">新增</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>  
+        </div>
+        <!-- SKU信息 end-->
+
+
+        <div class= "text-center cpm-footer">
+            <a  href="javascript:void(0)" class="btn btn-primary btn-lg" id="productAddCommit" onclick=productAddCommitEvent(this)>提交</a>
+            <a href="javascript:void(0)" class="btn btn-default btn-lg" onclick=clearAddProductInputValue()>重置</a>
+        </div>
+    </form>  
+</div>
+
+
+
+{% endblock content %}
+
+
+
+{% block modal %}
+
+<!-- 新增sku modal -->
+<div class="modal" id="addProductSUK" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >添加sku</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+        <!-- modal start -->
+        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+            <!-- 对应的产品　id -->
+            <input type="hidden" name="" id="addSKUHiddenInput"/>  
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="text-input">sku编码</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="sku-code" type="text" name="sku-code" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="sku-name">sku名称</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="sku-name" type="text" name="sku-name" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="sku-len">长</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="sku-len" type="text" name="sku-len" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="sku-wid">宽</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="sku-wid" type="text" name="sku-wid" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="sku-hei">高</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="sku-hei" type="text" name="sku-hei" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="sku-wei">重量</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="sku-wei" type="text" name="sku-wei" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            
+            
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" for="sku-img">请选择sku图片</label>
+                <div class="col-md-10">
+                    <input id="sku-img" type="file" name="sku-img">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            
+        </form>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=addProductSUKCloseEvent()>保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+    
+<!-- 供应商 定位 场景 负责人 modal -->
+<div class="modal" id="ProductAddoneModel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal_title"></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <input type="hidden" name="" value="" id="ProductAddoneModelHiddenInput">
+        </div>
+        <div class="modal-body">
+                <!-- modal start -->
+        <div class="row">
+            <div class="col-sm-5">
+                <select name="from" id="multiselect" class="form-control" size="8" multiple="multiple">
+                    
+                </select>
+            </div>
+            
+            <div class="col-sm-2">
+                <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+            </div>
+            
+            <div class="col-sm-5">
+                <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple"></select>
+            </div>
+        </div>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=ProductAddoneModelCloseButton(this)>保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal bs-example-modal-sm" id="productAddAlertmsgModal" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-danger" id="modal_title_p_alert">
+                </h4>&nbsp;&nbsp;
+                <span id="" class=""></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock modal%}
+

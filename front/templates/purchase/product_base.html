@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}商品 - {% endblock %}
+
+{% block stylesheet %}
+ 
+{% endblock stylesheet %}
+{% block nav %}
+
+<li class="nav-item" style="text-align:center;">
+    <a class="nav-link {% if  pro_index  %} active{% else %}{% endif %}" href="{% url 'select:product' %}"> 商品管理首页</a>
+</li>  
+  
+
+
+<li class="nav-item nav-dropdown " style="text-align:center;">
+    <a class="nav-link nav-dropdown-toggle" href="#">选品</a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+        <a class="nav-link {% if  p_list  %} active{% else %}{% endif %}" href="{% url 'select:p_list' %}">
+            候选品管理</a>
+            {% comment %} {% if  add_one  %} active{% else %}{% endif %}" href="{% url 'select:add_one' %}"  {% endcomment %}
+        </li>
+        <li class="nav-item">
+        <a class="nav-link {% if  p_list_pingshen  %} active{% else %}{% endif %}" href="{% url 'select:pingshen' %}">
+            评审</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link {% if  add_sku  %} active{% else %}{% endif %}" href="{% url 'select:add_sku' %}">
+            新品管理</a>
+        </li>
+    </ul>
+</li>
+
+
+
+
+
+<li class="nav-item nav-dropdown " style="text-align:center;">
+    <a class="nav-link nav-dropdown-toggle" href="#">采购</a>
+    <ul class="nav-dropdown-items">
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">新品采购</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">分货点货</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">验货</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">入库</a>
+        </li>
+    </ul>
+</li>
+<li class="nav-item nav-dropdown " style="text-align:center;">
+    <a class="nav-link nav-dropdown-toggle" href="#">详情</a>
+    <ul class="nav-dropdown-items">
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">拍摄准备</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">摄影摄像</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">美工制作</a>
+        </li>
+    </ul>
+</li>
+
+
+<li class="nav-item nav-dropdown " style="text-align:center;">
+    <a class="nav-link nav-dropdown-toggle" href="#">销售</a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+            <a class="nav-link" href="#">上架</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">封存</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">淘汰</a>
+        </li>
+
+
+    </ul>
+</li>
+{% endblock %}
+
+{% block content %}
+<!-- <p>{{ msg }}</p> -->
+
+
+
+{% endblock %}
+
+
+
+{% block js %}
+
+<script src="{% static 'js/product/product.js' %}"></script>
+<script src="{% static 'js/product/jquery.cxcalendar.min.js' %}"></script>
+<script src="{% static 'js/product/liandong.js' %}"></script>
+
+{% endblock js %}
+
+
+

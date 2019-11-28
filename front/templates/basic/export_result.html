@@ -1,0 +1,58 @@
+{% extends "basic/basic_base.html" %}
+
+
+
+{% block content %}
+
+<link href="{% static 'css/product/product_add_multi.css' %}" rel="stylesheet"> 
+<!-- <link href="{% static 'css/basic/snipper.css' %}" rel="stylesheet">  -->
+
+
+<div class="container-fluid">
+    <div class="top-bar mb-3">
+        <div class=" pull-left text-left">{{msg}}</div>
+    </div>
+    <!-- <div class="pad margin no-print">
+        <div class="callout callout-info" style="margin-bottom: 0!important;">
+        <h4><i class="fa fa-info"></i> 采购建议功能说明:</h4>
+        通过统计分析进销存报表和采购订单报表的数据，提供建议采购的产品清单，以及辅助采购决策的其他信息
+        </div>
+    </div> -->
+    
+{% for item in html_results %}
+    {% if item.state == '0' %}
+        <div class="alert alert-info alert-dismissible ">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><span class="glyphicon glyphicon-info-sign"></span> {{item.name}} -- 导出中</h4>
+        </div>
+    {% endif %}
+    {% if item.state == '1' %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><span class="glyphicon glyphicon-circle-arrow-down"></span> {{item.name}} -- 导出成功,导出时间为：<span>{{item.time}}</span></h4>
+            <a href="?url={{item.path}}&index={{item.raw_name}}" data-url="{{item.path}}" class="ml-4">点击下载</a>
+        </div>
+    {% endif %}
+    {% if item.state == '2' %}
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><span class="glyphicon glyphicon-remove-sign"></span> {{item.name}} -- 导出失败</h4>
+            请重试
+        </div>
+    {% endif %}
+{% endfor %}
+
+</div>
+
+
+
+<script>
+
+</script>
+{% endblock %}
+
+{% block basic_js %}
+<script src="{% static 'js/basic/rewrite_r.js' %}"></script>
+
+{% endblock basic_js %}
+

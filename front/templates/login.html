@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>登录 - 采诚商品管理系统</title>
+<link href="{% static 'css/login-style.min.css' %}" rel='stylesheet' type='text/css' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="App Sign in Form,Login Forms,Sign up Forms,Registration Forms,News latter Forms,Elements"./>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</script>
+<!--webfonts-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<!--//webfonts-->
+{% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> {% endcomment %}
+</head>
+<body>
+
+<!--0079FE-->
+  
+    <div class="app-cam">
+    {% comment %} <div class="app-cam" style="width:420px;height:580px;"> {% endcomment %}
+        <div class="cam"><img src="https://images.liqucn.com/img/h23/h13/img_localize_5ed5eed695ec3f9f660e80a084693d1c_400x400.png" class="img-responsive" alt="" /></div>
+        <div class="cpm-title">
+            <h2 >采诚商品管理系统</h2>
+            <h5>Caicheng Product MIS</h5>
+            {{msg}}
+
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div style="padding:10px;">
+                <span class="glyphicon glyphicon-search"></span>
+                <input type="text" class="text" name="username" placeholder="请输入用户名称">
+            </div>
+            <div style="padding:10px;">
+                <span class="glyphicon glyphicon-search"></span>
+                <input type="password" name="password" placeholder="请输入登录密码">
+            </div>
+            <div class="submit"><input type="submit"  value="登录" ></div>
+        </form>
+    </div>
+
+<!--版权-->
+<div class="copy-right">
+        <p>Copyright © 2015.Company name All rights reserved.<a target="_blank" href="http://www.cssmoban.com/">网页模板</a> - More Templates </p>
+        <p>采诚电商</p>
+</div>
+</body>
+</html>

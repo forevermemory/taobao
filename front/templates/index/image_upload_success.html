@@ -1,0 +1,25 @@
+{% extends "select/index/index_base.html" %}
+
+
+
+{% block content %}
+
+<link href="{% static 'css/product/product_add_one.css' %}" rel="stylesheet"> 
+
+
+<div class="container-fluid">
+    <div class="cpm-add-one-success text-center">
+        <img src=" {% static 'images/example.png' %}" alt="" class="">
+
+        <div class="cpm-add-one-title1">{{msg}}</div>
+        <div class="cpm-add-one-title2">{{msg}}</div>
+        <div class="text-center cpm-add-one-footer">
+            <a href="#" class="btn btn-primary btn-lg">返回列表</a>
+            <a href="#" class="btn btn-default btn-lg">重新修改</a>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

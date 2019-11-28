@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% comment %} 
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="images" id="" multiple="multiple">
+    <br>
+    <input type="submit" value="上传">
+</form>  {% endcomment %}
+
+
+<hr>
+<form action="{% url 'image_search_upload' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="image" id="" >
+    <br>
+    <input type="submit" value="上传">
+</form>
+<ul>
+
+{% for r in result %}
+<img src="{% static 'images/' %}{{r.brief.file_path}}" alt="">
+<img src="{{r.brief.file_path}}" alt="">
+    <li>aaa</li>
+    {% endfor %}
+</ul>
+{% endblock content %}

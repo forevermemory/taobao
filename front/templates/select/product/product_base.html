@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}商品 - {% endblock %}
+
+{% block stylesheet %}
+ 
+{% endblock stylesheet %}
+{% block nav %}
+
+<li class="nav-item" style="text-align:center;">
+    <a class="nav-link {% if  pro_index  %} active{% else %}{% endif %}" href="{% url 'select:product' %}"> 商品管理首页</a>
+</li>  
+  
+
+
+<li class="nav-item nav-dropdown " style="text-align:center;" >
+    <a class="nav-link nav-dropdown-toggle" href="#" onmouseenter="expendDropDown(this)" onmouseleave="reduceDropDown(this)">选品</a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+        <a class="nav-link {% if  p_list  %} active{% else %}{% endif %}" href="{% url 'select:p_list' %}">
+            候选品管理</a>
+            {% comment %} {% if  add_one  %} active{% else %}{% endif %}" href="{% url 'select:add_one' %}"  {% endcomment %}
+        </li>
+        <li class="nav-item">
+        <a class="nav-link {% if  p_list_pingshen  %} active{% else %}{% endif %}" href="{% url 'select:pingshen' %}">
+            评审</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link {% if  add_sku  %} active{% else %}{% endif %}" href="{% url 'select:add_sku' %}">
+            新品管理</a>
+        </li>
+    </ul>
+</li>
+
+
+
+
+
+<li class="nav-item nav-dropdown " style="text-align:center;" >
+    <a class="nav-link nav-dropdown-toggle" href="#" onmouseenter="expendDropDown(this)" onmouseleave="reduceDropDown(this)">采购</a>
+    <ul class="nav-dropdown-items">
+
+        <li class="nav-item">
+            <a class="nav-link {% if  purchase  %} active{% else %}{% endif %}" href="{% url 'purchase:purchase' %}">新品采购</a>
+        </li>
+        <li class="nav-item">  
+            <a class="nav-link {% if  fen_dian  %} active{% else %}{% endif %}" href="{% url 'purchase:fen_dian' %}">分货点货</a>
+        </li>
+        <li class="nav-item">  
+            <a class="nav-link {% if  yanhuo_url  %} active{% else %}{% endif %}" href="{% url 'purchase:yanhuo' %}">验货</a>
+        </li>
+        <li class="nav-item">  
+            <a class="nav-link {% if  ruku  %} active{% else %}{% endif %}" href="{% url 'purchase:ruku' %}">入库</a>
+        </li>
+
+    </ul>
+</li>
+<li class="nav-item nav-dropdown " style="text-align:center;" >
+    <a class="nav-link nav-dropdown-toggle" href="#" onmouseenter="expendDropDown(this)" onmouseleave="reduceDropDown(this)">详情</a>
+    <ul class="nav-dropdown-items">
+
+        <li class="nav-item">
+            <a class="nav-link {% if  start  %} active{% else %}{% endif %}" href="{% url 'photo:start' %}" >拍摄准备</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if  sysx  %} active{% else %}{% endif %}" href="{% url 'photo:sysx' %}" >摄影摄像</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if  mgzz  %} active{% else %}{% endif %}" href="{% url 'photo:mgzz' %}" >美工制作</a>
+        </li>
+ 
+  
+    </ul>
+</li>
+
+
+<li class="nav-item nav-dropdown " style="text-align:center;">
+    <a class="nav-link nav-dropdown-toggle" href="#"  onmouseenter="expendDropDown(this)" onmouseleave="reduceDropDown(this)">销售</a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+            <a class="nav-link {% if  shangjia  %} active{% else %}{% endif %}" href="{% url 'sale:shangjia' %}" >上架</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if  fengcun  %} active{% else %}{% endif %}" href="{% url 'sale:fengcun' %}" >封存</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if  taotai  %} active{% else %}{% endif %}" href="{% url 'sale:taotai' %}" >淘汰</a>
+        </li>
+
+
+    </ul>
+</li>
+{% endblock %}
+
+{% block content %}
+
+
+
+{% endblock %}
+
+
+
+{% block js %}
+<script src="{% static 'js/product/product.js' %}"></script>
+<script src="{% static 'js/product/product_utils.js' %}"></script>
+<script src="{% static 'js/product/liandong.js' %}"></script>
+
+      {% block product_js %}
+
+    {% endblock product_js %}
+
+
+{% endblock js %}
+
+
+

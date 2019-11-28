@@ -1,0 +1,96 @@
+.top-bar{
+    height: 35px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.cpm-multi-content{
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    /* background-color: #eee; */
+}
+
+/*cpm-multi-header*/
+.cpm-multi-content .cpm-multi-head{
+    height: 80px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+
+    
+}
+
+#steps1{
+    font-size: 20px;
+
+}
+
+
+
+/*cpm-multi-body*/
+.cpm-multi-content .cpm-multi-body{
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.cpm-multi-content .cpm-multi-body .b1{
+    height: 100px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+.cpm-multi-content .cpm-multi-body .b1 img{
+    height: 100%;
+    width: 100px;
+}
+.cpm-multi-content .cpm-multi-body .b1-m-b{
+    padding: 10px 0 0 10px;
+}
+
+
+
+/*链接上一步 下一步*/
+.cpm-multi-content .cpm-multi-btn a,#mimportNext{
+    width: 140px;
+    height: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+/*上传成功 同上传一个*/
+
+
+.cpm-add-one-success{
+    width: 700px;
+    height: 300px;
+    margin: 100px auto 0;
+    /* background-color: #eee; */
+    padding: 10px 20px 10px 20px;
+}
+
+.cpm-add-one-success img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+
+}
+
+/*14 24*/
+.cpm-add-one-title1{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 40px;
+    font-size: 24px;
+}
+.cpm-add-one-title2{
+    height: 40px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.cpm-add-one-footer a{
+    width: 140px;
+    height: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+}

@@ -1,0 +1,182 @@
+{% extends "basic/basic_base.html" %}
+
+
+{% block basic_content %}
+<!-- 右面创建按钮 start-->
+<div class="row" >
+    <div class="col-lg-12 pull-left">
+        
+        <!-- 搜索 -->
+        <div class="input-group ">
+                <div class="col-lg-9">
+                    <button class="btn btn-success"  style="height: 40px;" onclick="addSuppilerOpenEvent(this)">新增供应商</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- 右面创建按钮 end-->
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header" style="border: none;">
+                </div>
+                <div class="card-body">
+                    <table class=" table table-responsive-sm table-bordered  table-sm cpmTable">
+                        <thead class="bg-default bg-tabel-cpm">
+                            <tr>                                                      
+                                <th class="text-center">编码</th>                            
+                                <th class="text-center" >名称</th>                            
+                                <th class="text-center" >联系人</th>                            
+                                <th class="text-center" >电话</th>                            
+                                <th class="text-center" >手机</th>                            
+                                <th class="text-center" >邮箱</th>                            
+                                <th class="text-center" >地址</th>                            
+                                <th class="text-center" >备注</th>                            
+                                <th class="text-center">操作</th>                            
+                            </tr>                             
+                        </thead>
+                        <tbody>
+                            {% for item in  items %}
+                            <tr>
+                                <td class="text-center">{{item.code}}</td>
+                                <td class="text-center">{{item.name}}</td>
+                                <td class="text-center">{{item.concat}}</td>
+                                <td class="text-center">{{item.phone}}</td>
+                                <td class="text-center">{{item.telephone}}</td>
+                                <td class="text-center">{{item.email}}</td>
+                                <td class="text-center">{{item.address}}</td>
+                                <td class="text-center">{{item.note}}</td>
+                                <td class="text-center">
+                                        <a href="javascript:void(0);" onclick="editSuppilerClickEvent(this)" data-id="{{item.id}}"> 编辑</a> &nbsp;|&nbsp;
+                                       <a href="javascript:void(0);"   onclick="deleteSupplierConfirmClickEvent(this)" data-id="{{item.id}}" id=""> 删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+
+      {% include 'page.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock basic_content %}
+
+
+
+
+
+{% block modal %}
+
+<div class="modal" id="addSuppilerEvent" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >添加供应商</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+        <!-- modal start -->
+        <form class="form-horizontal" action="" method="post" >
+            <!-- 对应的产品　id -->
+            {% csrf_token %}
+            <input type="hidden" name="id" id="addSupplierHiddenInputId" value="" />  
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierCode"><span class="text-danger">*</span>&nbsp;编码</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierCode" type="text" name="s-code" value="" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierName"><span class="text-danger">*</span>&nbsp;名称</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierName" type="text" name="s-name" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierAddress"><span class="text-danger">*</span>&nbsp;地址</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierAddress" type="text" name="s-address" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierConcat">联系人</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierConcat" type="text" name="s-concat" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierPhone">电话</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierPhone" type="text" name="s-phone" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierTelephone">手机</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierTelephone" type="text" name="s-telephone" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierEmail">邮箱</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierEmail" type="email" name="s-email" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="addSupplierNote">备注</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="addSupplierNote" type="text" name="s-note" value="">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+        </form>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=addSupplierCloseEvent(this) id="addSupplierCloseBtn">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal  bs-example-modal-sm" id="deleteSupplierEvent" aria-hidden="true" >
+    <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >是否确认删除供应商</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <span class="help-block text-danger alertMsg" id="deleteSupplierCloseEventAlertMsg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=deleteSupplierCloseEvent(this) id="deleteSupplierCloseEventSaveButton">确认删除</button>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock modal %}
+
+{% block basic_js %}
+
+<script src="{% static 'js/basic/supplier.js' %}"></script>
+{% endblock basic_js %}

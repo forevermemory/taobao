@@ -1,0 +1,49 @@
+<div class="modal" id="ProductListMultiSelectModel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modalTitleQuery"></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <input type="hidden" name="" value="" id="ProductQueryModelHiddenInput">
+
+        <!-- 为供应商时候可以搜索  -->
+        <div id="supplierSearch" class="box-tools pull-right hidden" style="position: absolute;top: 20px;">
+            <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control pull-right" placeholder="搜索" id="MultiSelectSearch">
+                <div class="input-group-btn">
+                    <button  class="btn btn-default">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <div class="modal-body">
+                <!-- modal start -->
+        <div class="row">
+            <div class="col-sm-5">
+                <select name="from" id="multiselect" class="form-control" size="8" multiple="multiple">
+                </select>
+            </div>
+            
+            <div class="col-sm-2">
+                <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+            </div>
+            
+            <div class="col-sm-5">
+                <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple"></select>
+            </div>
+        </div>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=ProductAddModelCloseEvent()>保存</button>
+        </div>
+        </div>
+    </div>
+</div>

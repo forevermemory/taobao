@@ -1,0 +1,120 @@
+{% extends "basic/basic_base.html" %}
+
+
+{% block basic_content %}
+<!-- 右面创建按钮 start-->
+<div class="row" >
+    <div class="col-lg-12 pull-left">
+        
+        <!-- 搜索 -->
+        <div class="input-group ">
+                <div class="col-lg-9">
+                    <button class="btn btn-success"  style="height: 40px;" onclick="addBrandOpenEvent(this)">新增品牌</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- 右面创建按钮 end-->
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header" style="border: none;">
+                </div>
+                <div class="card-body">
+                    <table class=" table table-responsive-sm table-bordered  table-sm cpmTable">
+                        <thead class="bg-default bg-tabel-cpm">
+                            <tr>                                                      
+                                <th class="text-center">编码</th>                            
+                                <th class="text-center" >名称</th>                            
+                                <th class="text-center">操作</th>                            
+                            </tr>                             
+                        </thead>
+                        <tbody>
+                            {% for item in  items %}
+                            <tr>
+                                <td class="text-center">{{item.code}}</td>
+                                <td class="text-center">{{item.name}}</td>
+                                <td class="text-center">
+                                        <a href="javascript:void(0);" onclick="editBrandClickEvent(this)" data-id="{{item.id}}"> 编辑</a> &nbsp;|&nbsp;
+                                        <a href="javascript:void(0);"   onclick="deleteBrandConfirmClickEvent(this)" data-id="{{item.id}}" id=""> 删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+{% include 'page.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock basic_content %}
+
+
+
+
+
+{% block modal %}
+
+<div class="modal" id="addBrandEvent" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >添加品牌</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+        <!-- modal start -->
+        <form class="form-horizontal" action="" method="post" >
+            <!-- 对应的产品　id -->
+            {% csrf_token %}
+            <input type="hidden" name="id" id="addBrandHiddenInputId" value="" />  
+            <input type="hidden" name="code" id="addBrandHiddenInputCode" value="" />  
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="add-brand">品牌名称</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="add-brand" type="text" name="brand" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+        </form>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=addBrandCloseEvent(this) id="addBrandCloseBtn">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="deleteBrandEvent" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" >是否确认删除品牌</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <span class="help-block text-danger alertMsg" id="deleteBrandCloseEventAlertMsg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=deleteBrandCloseEvent(this) id="deleteBrandCloseEventSaveButton">确认删除</button>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock modal %}
+
+
+{% block basic_js %}
+    <script src="{% static 'js/basic/brand.js' %}"></script>
+
+{% endblock basic_js %}

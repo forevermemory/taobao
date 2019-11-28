@@ -1,0 +1,75 @@
+{% extends "basic/basic_base.html" %}
+
+
+{% block content %}
+
+<link href="{% static 'css/product/product_add_multi.css' %}" rel="stylesheet"> 
+
+<link href="{% static 'css/product/step.css' %}" rel="stylesheet">  <!--进度条-->
+<script src="{% static 'js/step.js' %}"></script><!--进度条-->
+<!-- http://www.fxss5201.cn/project/plugin/steps/2.0/      文档 -->
+
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">{{msg}}</div>
+        <!-- <div class="pull-right"><span class="cpm-input-title-span">*</span>为必填选项</div> -->
+        
+    </div>
+
+    <div class="container-fluid cpm-multi-content">
+        <div class="cpm-multi-head">
+            <!-- 进度条 -->
+            <div id="steps1"></div>
+
+        </div>
+        <div class="cpm-multi-body">
+
+
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'images/screen.jpg' %}"  style="height:100px;">
+                    </a>
+                </div>
+                <div class="media-body pt-3">
+                    <h4 class="media-heading">文件上传成功,请执行下一步操作</h4>
+                    {% comment %} <span>TODO</span>  {% endcomment %}
+                </div>
+            </div>
+            {% comment %} 
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'images/screen.jpg' %}" style="height:100px;">
+                    </a>
+                </div>
+                <div class="media-body pt-3">
+                    <h4 class="media-heading">本次不可导入</h4>
+                    <span>{{cant_import}}</span> 条
+                </div>
+            </div> 
+            {% endcomment %}
+        </div>
+        <div class="cpm-multi-btn text-center">
+            <a href="{% url 'basic:add_multi' %}?step=3" class="btn btn-primary btn-lg">下一步</a>
+            <a href="{% url 'basic:add_multi' %}" class="btn btn-default btn-lg">返回重新上传</a>
+        </div>
+    </div>
+</div>
+
+<script>
+var steps1 = steps({
+    el: "#steps1",
+    data: [
+        { title: "", description: "上传文件" },
+        { title: "", description: "执行导入" },
+        { title: "", description: "导入完成" }
+    ],
+    active: 1,  
+    dataOrder: ["title"]
+});
+</script>
+{% endblock %}
+{% block basic_js %}
+<script src="{% static 'js/basic/mul-import.js' %}"></script>
+{% endblock basic_js %}

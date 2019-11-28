@@ -1,0 +1,452 @@
+{% extends "select/product/product_base.html" %}
+{% block stylesheet %}
+
+
+
+{% endblock stylesheet %}
+
+{% block content %}
+<!-- <p>{{ msg }}</p> -->
+<link href="{% static 'css/product/product_list.css' %}" rel="stylesheet"> 
+<link href="{% static 'css/purchase/product_ruku.css' %}" rel="stylesheet"> 
+
+
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">待入库列表</div>
+        <!-- <div class="pull-right">为必填选项</div> -->
+    </div>
+    <form action="" method="POST">
+        
+        <!-- 基本信息 start-->
+        <div class="cpm-product-basic">
+            <div class="second-bar text-left">
+                条件查询
+            </div>
+            <div class="container-fluid">
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-code">编码</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-code" type="text" name="code" placeholder="" value="{{code}}" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-name">名称</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-name" type="text" name="name" placeholder="" value="{{name}}" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-pinlei">品类</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-pinlei" type="text" name="pinlei" placeholder="" value="{{pinlei}}" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-charger">负责人</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <select class="form-control cpm-input " name="charger" id="pl-charger" data-raw_id="{{good.chargers.id}}">
+                                <option value="" >------</option>
+                            {% for charger in chargers_all %}
+                                <option value="{{charger.id}}" {% if chargers == charger.id %} selected {% endif %}>{{charger.extension.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-tag-jibie">级别</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <select class="form-control cpm-input " name="jibie" id="pl-tag-jibie">
+                                    <option value="" >------</option>
+                                    <option value="0"  >普通</option>
+                                    <option value="1" >核心</option>
+                                    <option value="2" >重点</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-supplier">供应商</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="supplier" placeholder="" class="form-control cpm-input" id="pl-supplier"onclick="ProductAddModelOpenEvent(this)" readonly value="{{suppiler_val}}" data-id="{{suppliers}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-start">采购开始日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="start" placeholder="" class="form-control cpm-input" id="pl-start" readonly value="{{start}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-end">采购结束日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="end" placeholder="" class="form-control cpm-input" id="pl-end"  readonly value="{{end}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-dianhuo">点货结果</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <select class="form-control cpm-input " name="dianhuo" id="pl-dianhuo">
+                                <option value="" >------</option>
+                                <option value="0"  >正常</option>
+                                <option value="1" >缺货</option>
+                                <option value="2" >发错货</option>     
+                                <option value="3" >其他</option>     
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-yanhuo">验货结果</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <select class="form-control cpm-input " name="yanhuo" id="pl-yanhuo">
+                                <option value="" >------</option>
+                                <option value="0" >合格</option>
+                                <option value="1" >不合格</option>
+                                <option value="2" >其他</option>
+                            </select>
+                        </div>
+                    </div>
+            </div>  
+        </div>
+
+        <!-- 基本信息 end-->          
+                    
+        </div>
+        <!-- 标签属性 end-->
+        <div class="container-fluid">
+            <span class="btn btn-success " onclick="removeAllQueryConditions(this)" data-query-url="{{query_url}}">重置</span>
+            <span class="btn btn-success " id="queryBtn" onclick="exeQueryFenAndDian(this)" data-query-url="{{query_url}}">查询</span>
+            <span class="btn btn-success " id="exportCSV" data-flag="0" onclick="exportCSV(this)" data-query-url="{{query_url}}">导出</span>
+        </div >
+    </form>  
+    
+        <div class="cpm-product-basic">
+            <div class="second-bar text-center font-2xl">待入库列表</div>
+            <div class="container-fluid">
+                
+                <table class="table table-responsive-sm table-bordered font-sm table-hover cpmTable">
+                    <thead class="bg-tabel-cpm">
+                        <tr>
+                            <th class="text-center">产品缩略图</th>
+                            <th class="text-center">编码</th>
+                            <th class="text-center">名称</th>
+                            <th class="text-center">品类</th>
+                            <th class="text-center">产品负责人</th>
+                            <th class="text-center">级别</th>
+                            <th class="text-center">供应商</th>
+                            <th class="text-center">创建日期</th>
+                            <th class="text-center">采购日期</th>
+                            <th class="text-center">预计到货日期</th>
+                            <th class="text-center">实际到货日期</th>
+                            <th class="text-center">点货结果</th>
+                            <th class="text-center">验货结果</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td class="text-center">
+                                <img src="{{item.images}}" alt="" width="30px;"  onmouseenter="skuImageExpend(this)" onmouseleave="skuImageReduce(this)">
+                            </td>
+                            <td class="text-center">{{item.code}}</td>
+                            <td class="text-center">{{item.name}}</td>
+                            <td class="text-center">{{item.cate.name}}</td>
+                            <td class="text-center">
+                                {% for  d in  item.chargers %}
+                                    {{d.extension.name}}&nbsp;
+                                {% endfor %}
+                            </td>
+                            <td class="text-center">{{item.get_jibie_display}}</td>
+                            <td class="text-center">
+                                {% for  d in  item.suppliers %}
+                                    {{d.name}}&nbsp;
+                                {% endfor %}
+                            </td>
+                  
+                            <td class="text-center">{{item.created_at}}</td>
+                            <td class="text-center">{{item.order.purchase_date}}</td>
+                            <td class="text-center">{{item.order.expected_data}}</td>
+                            <td class="text-center ">
+                                {% if item.dianhuo.real_arrival_date %}
+                                {{item.dianhuo.real_arrival_date}}
+                                {% else %}
+                                {{item.yanhuo.created_at}}
+                                {% endif %}
+                            </td>
+                            <td class="text-center ">{{item.dianhuo.get_state_display}}</td>
+                            <td class="text-center ">{{item.yanhuo.get_result_display}}</td>
+                     
+                            <td  class="text-center">
+                                <a href="javascript:void(0);" data-id="{{item.id}}" 
+                                onclick="rukuBtnClick(this)">入库</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+      
+                    </tbody>
+                </table>
+            </div>  
+        </div>
+</div>
+<!-- 放大图片 -->
+<div id="sku-img-expend" style="display: none;">
+    <img src="" alt="">
+</div>
+{% include 'page.html' %}
+{% endblock content %}
+{% block modal %}
+<div class="modal" id="ProductListMultiSelectModel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content ">
+        <div class="modal-header">
+                <h4 class="modal-title" id="modalTitleQuery"></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <input type="hidden" name="" value="" id="ProductQueryModelHiddenInput">
+        </div>
+        <div class="modal-body">
+                <!-- modal start -->
+        <div class="row">
+            <div class="col-sm-5">
+                <select name="from" id="multiselect" class="form-control" size="8" multiple="multiple">
+                </select>
+            </div>
+            
+            <div class="col-sm-2">
+                <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+            </div>
+            
+            <div class="col-sm-5">
+                <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple"></select>
+            </div>
+        </div>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=ProductAddModelCloseEvent()>保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 评审弹出框 -->
+<div class="modal bs-example-modal-lg" id="rukuModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" >
+        <form action="" id="purchaseForm"  >
+        <div class="modal-content">
+        <div class="modal-header">
+                <h4 class="modal-title" id="modalTitleQuery">分货点货 &nbsp;&nbsp;&nbsp;</h4>
+                <span id="modalTitlerukuAlert" class="text-danger"></span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <!-- modal start -->
+            <!-- readonly -->
+            <div class="row ruku_out_div">
+
+            
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodId"> <span class="text-danger"></span>产品编码</label>
+                <div class="col-md-9">
+                        <input type="hidden" name="good_id" value="" id="rukuGoodId">
+                        <input  class="form-control" type="text" name="good_code" value="" id="rukuGoodCode" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodName"> <span class="text-danger"></span>产品名称</label>
+                <div class="col-md-9">
+                        <input  class="form-control" type="text" name="good_name" value="" id="rukuGoodName" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodProductCharger"> <span class="text-danger"></span>产品负责人</label>
+                <div class="col-md-9">
+                        <input  class="form-control" type="text" name="good_cp_charger" value="" id="rukuGoodProductCharger" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodCreateDate"> <span class="text-danger"></span>创建日期</label>
+                <div class="col-md-9">
+                        <input  class="form-control" type="text" name="good_create_date" value="" id="rukuGoodCreateDate" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodSupplier"> <span class="text-danger"></span>供应商</label>
+                <div class="col-md-9">
+                        <input  class="form-control" type="text" name="good_supplier" value="" id="rukuGoodSupplier" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodjibie"> <span class="text-danger"></span>级别</label>
+                <div class="col-md-9">
+                        <input  class="form-control" type="text" name="good_jibie" value="" id="rukuGoodjibie" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                    <label class="col-md-3 col-form-label label_ruku" for="rukuGoodPurchaser"><span class="text-danger"></span>采购负责人</label>
+                    <div class="col-md-9">
+                        <input  class="form-control" type="text" name="good_purchaser" value="" id="rukuGoodPurchaser" readonly>
+                        <span class="help-block text-danger alertMsg"></span>
+                    </div>
+                </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodPdate"> <span class="text-danger"></span>采购日期</label>
+                <div class="col-md-9">
+                        <input  class="form-control" type="text" name="good_p_date" value="" id="rukuGoodPdate" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodPurchaseDesc"> <span class="text-danger"></span>采购备注</label>
+                <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_pur_desc" id="rukuGoodPurchaseDesc" readonly value="..." data-container="body" data-toggle="popover" data-placement="top" data-content=""  onmouseenter="yanhuoDescExpend(this)" onmouseleave="yanhuoDescReduce(this)">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+        <div class="form-group row col-lg-4">
+            <label class="col-md-3 col-form-label label_ruku" for="rukuGoodEdate"> <span class="text-danger"></span>预计到货日期</label>
+            <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_e_date" value="" id="rukuGoodEdate" readonly>
+                <span class="help-block text-danger alertMsg"></span>
+            </div>
+        </div>
+        <div class="form-group row col-lg-4">
+            <label class="col-md-3 col-form-label label_ruku" for="rukuGoodRealdate"> <span class="text-danger"></span>实际到货日期</label>
+            <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_real_date" value="" id="rukuGoodRealdate" readonly>
+                <span class="help-block text-danger alertMsg"></span>
+            </div>
+        </div>
+        
+            </div>
+            <!-- input -->
+            <div class="row ruku_out_div">
+
+            
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodPurchaser"><span class="text-danger"></span>点货负责人</label>
+                <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_dianhuo_user" value="" id="goodDianhuoUser" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="goodDianhuoDetail"> <span class="text-danger"></span>点货结果</label>
+                <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_dianhuo_detail" value="" id="goodDianhuoDetail" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="goodDianhuoDesc"> <span class="text-danger"></span>点货备注</label>
+                <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_dianhuo_desc"  id="goodDianhuoDesc" readonly value="..." data-container="body" data-toggle="popover" data-placement="top" data-content=""  onmouseenter="yanhuoDescExpend(this)" onmouseleave="yanhuoDescReduce(this)">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+
+            <div id="yanhuoContainer" class="hidden">
+            <div class="form-group row col-lg-4"> 
+                <label class="col-md-3 col-form-label label_ruku" for="rukuGoodYanhuoCharger"><span class="text-danger"></span>验货负责人</label>
+                <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_yanhuo_user" value="" id="rukuGoodYanhuoCharger" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="goodYanhuoDetail"> <span class="text-danger"></span>验货结果</label>
+                <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_yanhuo_detail" value="" id="goodYanhuoDetail" readonly>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-4">
+                <label class="col-md-3 col-form-label label_ruku" for="goodYanhuoDesc"> <span class="text-danger"></span>验货备注</label>
+                <div class="col-md-9">
+                    <input  class="form-control" type="text" name="good_yanhuo_desc"  id="goodYanhuoDesc" readonly value="..." data-container="body" data-toggle="popover" data-placement="top" data-content=""  onmouseenter="yanhuoDescExpend(this)" onmouseleave="yanhuoDescReduce(this)">
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row col-lg-12">
+                <label class="col-md-3 col-form-label label_ruku" for=""> <span class="text-danger"></span>验货图片</label>
+                <div class="col-md-9" id="yanhuoImageContainer">
+                    
+                </div>
+            </div>
+            <div class="form-group row col-lg-12">
+                <label class="col-md-3 col-form-label label_ruku" for=""> <span class="text-danger"></span>验货视频</label>
+                <div class="col-md-9" id="goodYanhuoVideo">
+                        <a href=""  id="goodYanhuoVideoA" target="_blank">点击查看</a>
+                </div>
+            </div>
+            </div>
+            
+
+            </div>
+
+            <!-- 入库阶段的输入框 -->
+            <div class="row ruku_out_div ">
+
+                <div class="form-group row col-lg-4">
+                    <label class="col-md-3 col-form-label label_ruku" for="goodRukucharger"><span class="text-danger"></span>入库负责人</label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="goodRukucharger" name="good_ruku_chargerr" >
+                            <option value="{{request.user.id}}">------</option>
+                            {% for user in users %}
+                                <option value="{{user.id}}">{{user.extension.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="help-block text-danger alertMsg"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row col-lg-4">
+                    <label class="col-md-3 col-form-label label_ruku" for="goodRukuDetail"> <span class="text-danger"></span>入库结果</label>
+                    <div class="col-md-9">
+                            <select class="form-control" id="goodRukuDetail" name="good_ruku_detail" >
+                                {% for ruku in rukus %}
+                                    <option value="{{ruku.0}}">{{ruku.1}}</option>
+                                {% endfor %}
+                            </select>
+                        <span class="help-block text-danger alertMsg"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row col-lg-4">
+                    <label class="col-md-3 col-form-label label_ruku" for="GoodRukuDesc"> <span class="text-danger"></span>入库备注:</label>
+                    <div class="col-md-9">
+                        <textarea  class="form-control" name="good_ruku_desc" id="GoodRukuDesc" ></textarea>
+                        {% csrf_token %}
+                        <span class="help-block text-danger alertMsg"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=rukuModalClose() id="rukuButtonComfirm">确定</button>
+        </div>
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock modal%}
+{% block product_js %}
+<script src="{% static 'js/purchase/product_ruku.js' %}"></script>
+<script>
+    $('#pl-dianhuo').val('{{dianhuo}}')
+    $('#pl-yanhuo').val('{{yanhuo}}')
+    $('#pl-tag-jibie').val('{{jibie}}')
+</script>
+{% endblock product_js %}

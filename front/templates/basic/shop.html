@@ -1,0 +1,148 @@
+{% extends "basic/basic_base.html" %}
+
+
+{% block basic_content %}
+<!-- 右面创建按钮 start-->
+<div class="row" >
+    <div class="col-lg-12 pull-left">
+        
+        <!-- 搜索 -->
+        <div class="input-group ">
+                <div class="col-lg-9">
+                    <button class="btn btn-success"  style="height: 40px;" onclick="addshopOpenEvent(this)">新增店铺</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- 右面创建按钮 end-->
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header" style="border: none;">
+                </div>
+                <div class="card-body">
+                    <table class=" table table-responsive-sm table-bordered  table-sm cpmTable">
+                        <thead class="bg-default bg-tabel-cpm">
+                            <tr>                                                      
+                                <th class="text-center" >编码</th>                            
+                                <th class="text-center" >名称</th>                            
+                                <th class="text-center" >简称</th>                            
+                                <th class="text-center" >渠道</th>                            
+                                <th class="text-center" >链接</th>                            
+                                <th class="text-center">操作</th>                            
+                            </tr>                             
+                        </thead>
+                        <tbody>
+                            {% for item in  items %}
+                            <tr>
+                                <td class="text-center">{{item.code}}</td>
+                                <td class="text-center">{{item.name}}</td>
+                                <td class="text-center">{{item.sub_name}}</td>
+                                <td class="text-center">{{item.avenue.name}}</td>
+                                <td class="text-center">
+                                    {% if item.link == '无' %}
+                                    
+                                    {% else %}
+                                        <a href="{{item.link}}" target="_blank">点击查看详情</a> 
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                        <a href="javascript:void(0);" onclick="editshopClickEvent(this)" data-id="{{item.id}}" data-code="{{item.code}}" data-name="{{item.name}}" data-sub_name="{{item.sub_name}}" data-link="{{item.link}}" data-avenue="{{item.avenue.id}}"> 编辑</a> 
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                    {% include 'page.html' %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock basic_content %}
+
+
+
+
+
+{% block modal %}
+
+<div class="modal" id="addshopEvent" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="shopTitle">添加店铺</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+        <!-- modal start -->
+        <form class="form-horizontal" action="" method="post" >
+            <!-- 对应的产品　id -->
+            {% csrf_token %}
+            <input type="hidden" name="id" id="addshopHiddenInputId" value="" />  
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="shopCode">店铺编码</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="shopCode" type="text" name="shop" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="shopName">店铺名称</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="shopName" type="text" name="shop" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="shopSubName">店铺简称</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="shopSubName" type="text" name="shop" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="shopLink">店铺链接</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="shopLink" type="text" name="shop" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="shopAvenue">店铺渠道</label>
+                <div class="col-md-9">
+                    <select class="form-control cpm-input " name="" id="shopAvenue">
+                        {% for avenue in avenues %}
+                            <option value="{{avenue.id}}">{{avenue.name}}</option>
+                        {% endfor %}
+                         {% comment %} {% if meigong == charger.id %} selected {% endif %} {% endcomment %}
+                    </select>
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+
+
+
+        </form>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=addshopCloseEvent(this) id="addshopCloseBtn">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock modal %}
+
+{% block basic_js %}
+    <script src="{% static 'js/basic/shop.js' %}"></script>
+
+{% endblock basic_js %}

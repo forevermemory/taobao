@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django = "*"
+django-redis = "*"
+qiniu = "*"
+baidu-aip = "*"
+django-cors-headers = "*"
+pillow = "*"
+mysql-connector-python = "*"
+
+[requires]
+python_version = "3.8"

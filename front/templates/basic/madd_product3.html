@@ -1,0 +1,70 @@
+{% extends "basic/basic_base.html" %}
+
+
+{% block content %}
+
+<link href="{% static 'css/product/product_add_multi.css' %}" rel="stylesheet"> 
+<link href="{% static 'css/product/step.css' %}" rel="stylesheet">  <!--进度条-->
+<script src="{% static 'js/step.js' %}"></script><!--进度条-->
+<!-- http://www.fxss5201.cn/project/plugin/steps/2.0/      文档 -->
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">{{msg}}</div>
+        <!-- <div class="pull-right"><span class="cpm-input-title-span">*</span>为必填选项</div> -->
+    </div>
+       <div class="container-fluid cpm-multi-content">
+            <div class="cpm-multi-head">
+                <!-- 进度条 -->
+                <div id="steps1"></div>
+            </div>
+            <!-- 完成 -->
+            <div class="cpm-add-one-success text-center">
+                <h3 class="text-info">{{error}}{{success}}</h3>
+                <img src=" {% static 'images/screen.jpg' %}" alt="" class="">
+        
+                <div class="cpm-add-one-title1">批量导入完成</div>
+                {% comment %} <div class="cpm-add-one-title2">成功导入商品数量：{{num_success}}条</div> {% endcomment %}
+                <div class="text-center cpm-add-one-footer">
+                    <a href="#" class="btn btn-primary btn-lg">完成</a>
+                    <a href="{% url 'basic:add_multi' %}" class="btn btn-default btn-lg">返回</a>
+                </div>
+            </div>
+       </div>
+
+</div>
+
+<script>
+var steps1 = steps({
+    el: "#steps1",
+    data: [
+        { title: "", description: "上传文件" },
+        { title: "", description: "执行导入" },
+        { title: "", description: "导入完成" }
+    ], 
+    active :2,          //全部显示完成
+    // center: true,
+    dataOrder: ["title"]
+    // dataOrder: ["title", "line", "description"]
+});
+
+
+
+</script>
+{% endblock %}
+{% block basic_js %}
+<script src="{% static 'js/basic/mul-import.js' %}"></script>
+<script>
+$(function(){
+    console.log('页面加载完毕,后台发送ajax上传到百度')
+    $.ajax({
+        type: "get",
+        url: "/basic/add_multi/",
+        data: {'ajax_upload_to_baidu':'1'},
+        success: function (response) {
+            
+        }
+    });
+})
+</script>
+
+{% endblock basic_js %}

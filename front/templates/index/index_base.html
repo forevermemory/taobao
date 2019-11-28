@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}首页 - {% endblock %}
+{% block nav %}
+
+
+    <li class="nav-item" style="text-align:center;">
+        <a class="nav-link" href="{% url 'select:index' %}"> 首页</a>
+    </li>
+    <li class="nav-item" style="text-align:center;">
+        <a class="nav-link {% if  upload  %} active{% else %}{% endif %}" href="{% url 'select:img_upload' %}">图像--上传</a>
+    </li>
+    <li class="nav-item" style="text-align:center;">
+        <a class="nav-link {% if  search  %} active{% else %}{% endif %}" href="{% url 'select:img_search' %}">图像--识别</a>
+    </li>
+
+
+{% endblock %}
+
+
+
+{% block content %}
+<!-- <link href="/front/dist/css/bootstrap.css" rel="stylesheet">  -->
+
+<link href="{% static 'css/index/index.css' %}" rel="stylesheet">
+
+
+    
+<div class="container-fluid" >
+    <!-- top -->
+    <div class="top-bar" >
+        <div class=" pull-left text-left" >{{msg}}</div>
+        <!-- <div class="pull-right"><span class="cpm-input-title-span">*</span>为必填选项</div> -->
+        
+    </div>
+
+    {% block index_content %}
+    
+    {% endblock index_content %}
+
+</div>
+{% endblock %}

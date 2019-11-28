@@ -1,0 +1,234 @@
+{% extends "basic/basic_base.html" %}
+
+
+{% block cate_stylesheet %}
+<link href="{% static 'css/product/liandong.css' %}" rel="stylesheet"> 
+{% endblock cate_stylesheet %}
+
+{% block basic_content %}
+<div class="pad margin no-print">
+    <div class="callout callout-info" style="margin-bottom: 0!important;">
+    <h4><i class="fa fa-info"></i> Note:</h4>
+    This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
+    </div>
+</div>
+
+
+
+
+<section class="invoice" style="position:relative">
+<div class="row">
+    <div class=" row box-header w-100 "  style="position:relative;padding-left:30px;">
+        <h3 class="box-title" style="display: inline-block;">品类总览</h3>
+        <div class="input-group-btn" style="position: absolute;right: 200px;top: 20px;">
+            <button  class="btn btn-default" id="downloadCateCSV">
+                <span class="glyphicon glyphicon-download-alt" ></span>
+            </button>
+        </div>
+        <div class="box-tools pull-right" style="position: absolute;right: 10px;top: 20px;">
+        
+            <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control pull-right" placeholder="搜索" id="input-select-node">
+                <div class="input-group-btn">
+                    <button  class="btn btn-default">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+  
+<!-- 树 -->
+<div id="treeview4" class="treeview"></div>
+<div id="treeview-selectable" class=""></div>
+<a href="#top" title="回到顶部" class="back-to-top btn btn-default" style="position:absolute;bottom:-50px;right:50px;">TOP</a>
+
+</section>
+{% include 'page.html' %}
+{% endblock basic_content %}
+{% block modal %}
+<div class="modal bs-example-modal-sm fade" id="deleteCateModal" aria-hidden="true" >
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="confirmDelCateHidId" data-id="">您确认删除该品类吗?</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {% csrf_token %}
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" id="deleteCateConfirm"  onclick="deleteCateConfirmEvent(this)">确定</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 选择品类 start -->
+
+<div class="modal fade" id="selectCate" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="avenueTitle">添加品类</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" name="id" id="isAddCate" value="1" />  
+            <input type="hidden" name="id" id="isAddCateId" value="0" />  
+
+               <div class="row col-lg-12 pull-left text-center cpm-width">
+                    <label class="col-lg-3 col-form-label mr-0 cpm-lb" for="p-pinlei"><span class="cpm-input-title-span"></span>选择品类</label>
+                    <div class="col-lg-9 cpm-lb-div">
+
+                        <div class="qrm-pinming">
+                            <div class="qrm-input-border">
+                                <input id="p-pinlei" data-path_ids="" data-path_id_length="" type="text" data-final-id="" data-all-id="" name="pinlei" placeholder="请选择" class="form-control cpm-input qrm-input" onkeyup=addProductPeileiChange(this) autocomplete="off">
+                            </div>
+                            <div class="qrm-pinming-panel" style="display:none">
+                                <!-- 一级 -->
+                                <div class="qrm-border qrm-border1">
+                                    <ul class="qrm-lev-1 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+                                <!-- 二级 -->
+                                <div class="qrm-border qrm-border2">
+                                    <ul class="qrm-lev-2 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+                                <!-- 三级 -->
+                                <div class="qrm-border qrm-border3">
+                                    <ul class="qrm-lev-3 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+                                <!-- 四级 -->
+                                <div class="qrm-border qrm-border4">
+                                    <ul class="qrm-lev-4 qrm-lev">
+
+                                    </ul>
+                                    <p class="clearfix"></p>
+                                </div>
+
+                            </div>
+                            <p class="clearfix"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=addCateCloseEvent(this) id="addCateCloseBtn">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock modal %}
+
+{% block basic_js %}
+<script src="{% static 'js/basic/bootstrap-treeview.js' %}"></script>
+
+    
+<script>
+var defaultData = [
+    {% for item_first in  items_first%}
+    {
+        text: '{{item_first.name}}',
+        href: '#{{item_first.cid}}',
+        tags: ['删除','添加品类'],
+        nodes: [
+            {% for item_second in item_first.second %}
+                {
+                    text: '{{item_second.name}}',
+                    href: '#{{item_first.cid}},{{item_second.cid}}',
+                    tags: ['删除','添加品类'],
+                    nodes: [
+                        {% for item_third in item_second.third %}
+                        {
+                            text: '{{item_third.name}}',
+                            href: '#{{item_first.cid}},{{item_second.cid}},{{item_third.cid}}',
+                            tags: ['删除','添加品类'],
+                            nodes:[
+                                {% for item_forth in item_third.forth %}
+                                    {
+                                        text: '{{item_forth.name}}',
+                                        href: '#{{item_first.cid}},{{item_second.cid}},{{item_third.cid}},{{item_forth.cid}}',
+                                        tags: ['删除'],
+                                    },
+                                {% endfor %}
+                            ]
+                        },
+                        {% endfor %}
+                    ]
+                },
+            {% endfor %}
+        ]
+    },
+    {% endfor %}
+];
+
+/*
+    // 下面启用了搜索 这个就不需要了
+    $('#treeview4').treeview({
+        color: "#428bca",
+        // expandIcon: "glyphicon glyphicon-stop",
+        // collapseIcon: "glyphicon glyphicon-unchecked",
+        // nodeIcon: "glyphicon glyphicon-user",
+        levels: 1,  // 展开层级
+        showTags: true,
+        selectedBackColor:'rgb(38, 156, 255)',   // 选中背景颜色
+        data: defaultData
+      });
+*/
+
+
+var initSelectableTree = function() {
+    return $('#treeview4').treeview({
+        data: defaultData,
+        levels: 1,  // 展开层级
+        color: "#428bca",
+        showTags: true,
+        enableLinks:true,
+        selectedBackColor:'rgb(38, 156, 255)',   // 选中背景颜色
+        // multiSelect: $('#chk-select-multi').is(':checked'),
+    })
+}
+
+
+var $selectableTree = initSelectableTree();
+function findSelectableNodes() {
+    return $selectableTree.treeview('search', [ $('#input-select-node').val(), { ignoreCase: false, exactMatch: false } ]);
+}
+// 搜索功能
+$('#input-select-node').on('keyup', function (e) {
+    var selectableNodes = findSelectableNodes()
+    $('.select-node').prop('disabled', !(selectableNodes.length >= 1))
+})
+// 渲染树
+initSelectableTree()
+
+
+
+
+</script>
+<script src="{% static 'js/product/liandong.js' %}"></script>
+<script src="{% static 'js/product/product.js' %}"></script>
+<script src="{% static 'js/basic/cate.js' %}"></script>
+
+{% endblock basic_js %}
+
+
+
+
+

@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% block title %}首页 - {% endblock %}
+{% block stylesheet %}
+<link href="{% static 'css/index/index.css' %}" rel="stylesheet">
+<!-- <link href="{% static 'css/index/doubleDate.css' %}" rel="stylesheet"> -->
+<link href="{% static 'css/index/daterangepicker.css' %}" rel="stylesheet">
+
+{% endblock stylesheet %}
+{% block nav %}
+    <li class="nav-item" style="text-align:center;">
+        <a class="nav-link" href="{% url 'cpmindex:index' %}"> 首页</a>
+    </li>
+    <li class="nav-item" style="text-align:center;">
+        <a class="nav-link" href="{% url 'cpmindex:query' %}"> 查询</a>
+    </li>
+
+{% endblock %}
+
+
+
+{% block content %}
+<!-- <link href="/front/dist/css/bootstrap.css" rel="stylesheet">  -->
+    <div class="container-fluid" >
+    <!-- top -->
+    <div class="top-bar" >
+        <div class=" pull-left text-left" >{{msg}}</div>
+        <!-- <div class="pull-right"><span class="cpm-input-title-span">*</span>为必填选项</div> -->
+        
+    </div>
+
+    <!-- 总览  start-->
+
+    <div class="cpm-index-zl">
+        <ul class="ul-1">
+            <li>
+                    <div class="cpm-index-top">上新准备总览</div>
+                    <ul class="ul-2">
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'purchase:purchase' %}" id="indexCaigou"></a>
+                                </h2>
+                                <div class="">待采购</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                        <a href="{% url 'purchase:ruku' %}" id="indexRuku"></a>
+                                </h2>
+                                <div class="">待入库</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                        <a href="{% url 'photo:start' %}" id="indexPaishe"></a>
+                                </h2>
+                                <div class="">待拍摄</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'photo:mgzz' %}" id="indexZhizuo"></a>
+                                </h2>
+                                <div class="">待制作</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'sale:shangjia' %}?to_shangjia=1" id="indexShangjia"></a>
+                                </h2>
+                                <div class="">待上架</div>
+                            </div>
+                        </li>
+          
+                    </ul>
+
+            </li>
+
+            <li>
+                    <div class="cpm-index-top">销售总览</div>
+                    <ul class="ul-2">
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'sale:shangjia' %}?shangjia_done=1" id="indexShangjiaDone"></a>
+                                </h2>
+                                <div class="">已上架</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'sale:taotai' %}?tuishi_done=0" id="indexTaotai"></a>
+                                </h2>
+                                <div class="">待淘汰</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'sale:fengcun' %}?fengcun_done=0" id="indexFengcun"></a>
+                                </h2>
+                                <div class="">待封存</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'sale:fengcun' %}?fengcun_done=1" id="indexFengcunDone"></a>
+                                </h2>
+                                <div class="">已封存</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="cpm-index-info">
+                                <h2 class="h3 text-danger">
+                                    <a href="{% url 'sale:taotai' %}?tuishi_done=1" id="indexTuishiDone"></a>
+                                </h2>
+                                <div class="">已退市</div>
+                            </div>
+                        </li>
+          
+                    </ul>
+
+            </li>
+
+        </ul>
+    </div>
+    <!-- 总览  end-->
+
+    <!-- 框框 start -->
+    <div class=" cpm-index-kk">
+        <ul clsss="">
+            <li class="bg-info">
+                <h3 class="h4">
+                    <a href="{% url 'purchase:fen_dian' %}?caigou_exceed=1" id="indexCaigouExceed"></a>
+                </h3>
+                <p class="text-center">待采购超期</p>
+            </li>
+            <li class="bg-warning">
+                <h3 class="h4">
+                    <a href="{% url 'purchase:ruku' %}?ruku_exceed=1" id="indexRukuExceed"></a>
+                </h3>
+                <p class="text-center">待入库超期</p>
+            </li>
+            <li class="bg-danger">
+
+                <h3 class="h4">
+                    <a href="{% url 'photo:sysx' %}?paishe_exceed=1" id="IndexPaisheExceed"></a>
+                </h3>
+                <p class="text-center">待拍摄超期</p>
+            </li>
+            <li class="bg-success">
+                <h3 class="h4">
+                    <a href="{% url 'photo:mgzz' %}?zhizuo_exceed=1" id="IndexZhizuoExceed"></a>
+                </h3>
+                <p class="text-center">待制作超期</p>
+            </li>
+
+      
+        </ul>
+
+    </div>
+    <!-- 框框 end -->
+
+    <!-- 常用功能 start -->
+    <div class="cpm-index-cy">
+            <div class="top">
+                    常用功能
+            </div>
+            <div class="bottom">
+                <a href="{% url 'select:add_one' %}" class="btn cpm-index-cy-a">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <p>新增商品</p>
+                </a>
+
+
+            </div>
+    </div>
+    <!-- 常用功能end -->
+
+    <!-- 统计  面积图 start -->
+    <div class="cpm-index-mj">
+            <div class="header">
+                <div class="left pull-left">新品看板</div>
+                <div class="right pull-right" style="margin-right: 20px;">
+                    <ul class="nav nav-tabs" role="tablist" id="indexShangxinTab">
+                        <li role="presentation" class="cpm-active"><a href="#caigouShishi" aria-controls="caigouShishi" role="tab" data-toggle="tab">实时</a></li>
+
+                        <li role="presentation" class="cpm-active"><a href="#caigouYesterday" aria-controls="caigouYesterday" role="tab" data-toggle="tab">昨天</a></li>
+
+                        <li role="presentation" class="cpm-active active"><a href="#caigouDay7" aria-controls="caigouDay7" role="tab" data-toggle="tab">7天</a></li>
+
+                        <li role="presentation" class="cpm-active "><a href="#caigouDay30" aria-controls="caigouDay30" role="tab" data-toggle="tab">30天</a></li>
+
+                        <li role="presentation" class="cpm-active "><a href="#caigouWeek" aria-controls="caigouWeek" role="tab" data-toggle="tab">周</a></li>
+
+                        <li role="presentation" class="cpm-active "><a href="#caigouMonth" aria-controls="caigouMonth" role="tab" data-toggle="tab">月</a></li>
+<!-- <div class="input-group">
+        <div class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+        
+        </div>
+        <input type="text" class="form-control pull-right" id="reservation">
+    </div>
+</div> -->
+
+                        <li class="last">
+                            <a href="#caigouCurrentDailyDiv" aria-controls="caigouCurrentDailyDiv" role="tab" data-toggle="tab" id="caigouCurrentDailyA">
+                                <input type="text" placeholder="请选择日期" id="caigouDateInput" autocomplete="off">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content" style="border:none;" id="caigouTabContent">
+                <div role="tabpanel" class="tab-pane fade cpm-caigou" id="caigouShishi">
+                </div>
+                <div role="tabpanel" class="tab-pane fade cpm-caigou" id="caigouYesterday">
+                </div>
+                <div role="tabpanel" class="tab-pane fade in active cpm-caigou" id="caigouDay7">
+                </div>
+                <div role="tabpanel" class="tab-pane fade cpm-caigou" id="caigouDay30">
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade cpm-caigou" id="caigouWeek">
+                </div>
+                <div role="tabpanel" class="tab-pane fade cpm-caigou" id="caigouMonth">
+                </div>
+                <div role="tabpanel" class="tab-pane fade cpm-caigou" id="caigouCurrentDailyDiv">
+                </div>
+            </div>
+    </div>
+    <!-- 统计 面积图 end -->
+
+
+  <!-- 统计  柱状图 start -->
+  <div class="cpm-index-mj">
+    <div class="header">
+        <div class="left pull-left">销售看板</div>
+        <div class="right pull-right" style="margin-right: 20px;">
+            <ul class="nav nav-tabs" role="tablist" id="indexSaleTab">
+                <li role="presentation" class="cpm-active"><a href="#saleShishi" aria-controls="saleShishi" role="tab" data-toggle="tab">实时</a></li>
+
+                <li role="presentation" class="cpm-active"><a href="#saleYesterday" aria-controls="saleYesterday" role="tab" data-toggle="tab">昨天</a></li>
+
+                <li role="presentation" class="cpm-active active"><a href="#saleDay7" aria-controls="saleDay7" role="tab" data-toggle="tab">7天</a></li>
+
+                <li role="presentation" class="cpm-active "><a href="#saleDay30" aria-controls="saleDay30" role="tab" data-toggle="tab">30天</a></li>
+
+                <li role="presentation" class="cpm-active "><a href="#saleWeek" aria-controls="saleWeek" role="tab" data-toggle="tab">周</a></li>
+
+                <li role="presentation" class="cpm-active "><a href="#saleMonth" aria-controls="saleMonth" role="tab" data-toggle="tab">月</a></li>
+
+                
+                <li class="last">
+                    <a href="#saleCurrentDailyDiv" aria-controls="saleCurrentDailyDiv" role="tab" data-toggle="tab" id="saleCurrentDailyA">
+                        <input type="text" placeholder="请选择日期" id="saleDateInput"  autocomplete="off">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-content" style="border:none;" id="saleTabContent">
+        <div role="tabpanel" class="tab-pane fade cpm-caigou" id="saleShishi">
+        </div>
+        <div role="tabpanel" class="tab-pane fade cpm-caigou" id="saleYesterday">
+        </div>
+        <div role="tabpanel" class="tab-pane fade in active cpm-caigou" id="saleDay7">
+        </div>
+        <div role="tabpanel" class="tab-pane fade cpm-caigou" id="saleDay30">
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade cpm-caigou" id="saleWeek">
+        </div>
+        <div role="tabpanel" class="tab-pane fade cpm-caigou" id="saleMonth">
+        </div>
+        <div role="tabpanel" class="tab-pane fade cpm-caigou" id="saleCurrentDailyDiv">
+        </div>
+    </div>
+</div>
+<!-- 统计 柱状图 end -->
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script src="{% static 'js/index/moment.min.js' %}"></script>
+<!-- <script src="{% static 'js/index/doubleDate.js' %}"></script> -->
+<script src="{% static 'js/index/daterangepicker.js' %}"></script>
+<script src="{% static 'js/index/index.js' %}"></script>
+
+{% endblock js %}

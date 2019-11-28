@@ -1,0 +1,33 @@
+.top-bar{
+    height: 35px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+/* .cpm-multi-content{
+
+} */
+
+/*cpm-multi-header*/
+.cpm-multi-content .cpm-multi-head{
+    height: 80px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+
+    /* padding-top: 24px; */
+    
+}
+
+#steps1{
+    font-size: 20px;
+
+}
+
+.card-body-s{margin-bottom: 20px;}
+.card-body-s a div{height: 100px;text-align: center;border-radius: 50%;padding: 0;margin: 0;}
+.card-body-s a div h6{line-height: 100px;font-size: 16px; padding: 0;margin: 0;}
+
+
+
+

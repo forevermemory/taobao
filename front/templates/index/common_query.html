@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% block title %}通用查询--{% endblock %}
+{% block stylesheet %}
+<link href="{% static 'css/index/index.css' %}" rel="stylesheet">
+<link href="{% static 'css/product/product_list.css' %}" rel="stylesheet"> 
+{% endblock stylesheet %}
+{% block nav %}
+    <li class="nav-item" style="text-align:center;">
+        <a class="nav-link" href="{% url 'cpmindex:index' %}"> 首页</a>
+    </li>
+    <li class="nav-item" style="text-align:center;">
+        <a class="nav-link" href="{% url 'cpmindex:query' %}"> 查询</a>
+    </li>
+
+{% endblock nav %}
+
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">通用查询</div>
+        <!-- <div class="pull-right">为必填选项</div> -->
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <!-- 基本信息 start-->
+        <div class="cpm-product-basic">
+            <div class="second-bar text-left">条件查询</div>
+            <div class="container-fluid">
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-code">编码</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-code" type="text" name="code" placeholder="" value="{{code}}" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-name">名称</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-name" type="text" name="name" placeholder="" value="{{name}}" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-pinlei">品类</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input class="form-control cpm-input" id="pl-pinlei" type="text" name="pinlei" placeholder="" value="{{pinlei}}" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-charger">负责人</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <select class="form-control cpm-input " name="charger" id="pl-charger" data-raw_id="{{good.chargers.id}}">
+                            <option value="" >------</option>
+                            {% for charger in chargers_all %}
+                                <option value="{{charger.id}}" {% if chargers == charger.id %} selected {% endif %}>{{charger.extension.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-tag-jibie">级别</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <select class="form-control cpm-input " name="jibie" id="pl-tag-jibie">
+                            <option value="" {% if jibie == '' %} selected {% endif %}>------</option>
+                            <option value="0" {% if jibie == '0' %} selected {% endif %} >普通</option>
+                            <option value="1" {% if jibie == '1' %} selected {% endif %}>核心</option>
+                            <option value="2" {% if jibie == '2' %} selected {% endif %}>重点</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-supplier">供应商</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <input type="text" name="supplier" placeholder="" class="form-control cpm-input" id="pl-supplier"onclick="ProductAddModelOpenEvent(this)" readonly value="{{suppiler_val}}" data-id="{{suppliers}}">
+                    </div>
+                </div>
+                
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="newAndMakePhase">上新准备阶段</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <select class="form-control cpm-input " id="newAndMakePhase">
+                                {% for sx_sel in index_shangxin %}
+                                    <option value="{{sx_sel.0}}"  {% if  shangxin_type == sx_sel.0 %}
+                                    selected {% endif %}>{{sx_sel.1}}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="start_newAndMakePhase">起始日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="start" placeholder="" class="form-control cpm-input" id="start_newAndMakePhase" readonly value="{{shangxin_start}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="end_newAndMakePhase">结束日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="end" placeholder="" class="form-control cpm-input" id="end_newAndMakePhase"  readonly value="{{shangxin_end}}">
+                        </div>
+                    </div>
+                <div class="row col-lg-4 pull-left text-center cpm-width">
+                    <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="salePhase">销售阶段</label>
+                    <div class="col-lg-8 cpm-lb-div">
+                        <select class="form-control cpm-input " id="salePhase">
+                                {% for sale_sel in index_sale %}
+                                    <option value="{{sale_sel.0}}" {% if  sale_type == sale_sel.0 %}
+                                    selected {% endif %}>{{sale_sel.1}}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="start_salePhase">起始日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="start" placeholder="" class="form-control cpm-input" id="start_salePhase" readonly value="{{sale_start}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="end_salePhase">结束日期</label>
+                        <div class="col-lg-8 cpm-lb-div">
+                            <input type="text" name="end" placeholder="" class="form-control cpm-input" id="end_salePhase"  readonly value="{{sale_end}}">
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 pull-left text-center cpm-width">
+                        <label class="col-lg-4 col-form-label mr-0 cpm-lb" for="pl-do_shop">已上架店铺</label>
+                        <div class="col-lg-8 cpm-lb-div">
+    
+                              <select class="form-control cpm-input "  id="pl-do_shop">
+                                    <option value="" >------</option>
+                                {% for shop in shops %}
+                                    <option value="{{shop.id}}" {% if do_shop == shop.id %} selected {% endif %}>{{shop.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+            </div>  
+        </div>
+
+        <!-- 基本信息 end-->
+        <!-- 三个按钮　查询　重置　 -->
+        <div class="container-fluid">
+            <span class="btn btn-success " onclick="removeAllQueryConditions(this)" data-query-url="{{query_url}}">重置</span>
+            <span class="btn btn-success " id="queryBtn" onclick="exeQueryCommon(this)" data-query-url="{{query_url}}">查询</span>
+            <span class="btn btn-success " id="exportCSV" data-flag="0" onclick="exportCSV(this)" data-query-url="{{query_url}}">导出</span>
+
+        </div >
+    </form>  
+    
+        <div class="cpm-product-basic" id="cpm-product-new-product">
+            <div class="second-bar text-center font-2xl">
+                    通用查询
+            </div>
+            <div class="container-fluid">
+                
+                <table class="table table-responsive-sm table-bordered font-sm table-hover cpmTable">
+                    <thead class="bg-tabel-cpm">
+                        <tr>
+                            <th class="text-center">缩略图</th>
+                            <th class="text-center">产品编码</th>
+                            <th class="text-center">产品名称/规格</th>
+                            <th class="text-center">品类</th>
+                            <th class="text-center">产品负责人</th>
+                            <th class="text-center">级别</th>
+                            <th class="text-center">供应商</th>
+                            <th class="text-center">创建日期</th>
+                            <th class="text-center">采购日期</th>
+                            <th class="text-center">到货日期</th>
+                            <th class="text-center">入库日期</th>
+                            <th class="text-center">拍摄日期</th>
+                            <th class="text-center">制作日期</th>
+                            <th class="text-center">入库状态</th>
+                            <th class="text-center">制作状态</th>
+                            <th class="text-center">销售状态</th>
+                            <th class="text-center">已上架店铺</th>
+                            <th class="text-center">上架日期</th>
+                            <th class="text-center">封存日期</th>
+                            <th class="text-center">淘汰日期</th>
+                            <th class="text-center">退市日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr data-good_id="{{item.id}}" class="good_id">
+                            <td class="text-center">
+                            </td>
+                            <td class="text-center">{{item.code}}</td>
+                            <td class="text-center">
+                            {{item.name}}
+                            </td>
+                            <td class="text-center cate_name"></td>
+                            <td class="text-center">
+                                {% for  d in  item.chargers %}{{d.extension.name}}&nbsp;{% endfor %}
+                            </td>
+                            <td class="text-center">{{item.get_jibie_display}}</td>
+                            <td class="text-center">
+                                {% for  d in  item.suppliers %}{{d.name}}&nbsp;{% endfor %}
+                            </td>
+                            <td class="text-center">{{item.created_at}}</td>
+                            <td class="text-center indexCaigou" ></td>
+                            <td class="text-center indexFendian"></td>
+                            <td class="text-center indexRuku"></td>
+                            <td class="text-center indexPaishe"></td>
+                            <td class="text-center indexZhizuo"></td>
+                            <td class="text-center indexRukuState"></td>
+                            <td class="text-center indexzhizuoState"></td>
+                            <td class="text-center indexShangjiaState">
+                                {% if  item.state_sale == 0 %}
+                                {% else %}
+                                {{item.get_state_sale_display}}
+                                {% endif %}
+                            </td>
+                            
+                            <td class="text-center indexDianpus"></td>
+                            <td class="text-center indexShangjia"></td>
+                            <td class="text-center indexFengcun"></td>
+                            <td class="text-center indexTaotai"></td>
+                            <td class="text-center indexTuishi"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>  
+        </div>
+</div>
+
+{% include 'page.html' %}
+{% endblock content %}
+{% block modal %}
+<div class="modal" id="ProductListMultiSelectModel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+                <h4 class="modal-title" id="modalTitleQuery"></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <input type="hidden" name="" value="" id="ProductQueryModelHiddenInput">
+        </div>
+        <div class="modal-body">
+                <!-- modal start -->
+        <div class="row">
+            <div class="col-sm-5">
+                <select name="from" id="multiselect" class="form-control" size="8" multiple="multiple">
+                </select>
+            </div>
+            
+            <div class="col-sm-2">
+                <button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                <button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                <button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                <button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+            </div>
+            
+            <div class="col-sm-5">
+                <select name="to" id="multiselect_to" class="form-control" size="8" multiple="multiple"></select>
+            </div>
+        </div>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=ProductAddModelCloseEvent()>保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock modal%}
+{% block js %}
+<script src="{% static 'js/product/product.js' %}"></script>
+<script src="{% static 'js/product/product_utils.js' %}"></script>
+<script src="{% static 'js/index/common_query.js' %}"></script>
+<script>
+</script>
+
+{% endblock js %}

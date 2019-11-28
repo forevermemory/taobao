@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}商品 - {% endblock %}
+{% block nav %}
+
+<li class="nav-item" style="text-align:center;">
+    <a class="nav-link {% if  index  %} active{% else %}{% endif %}" href="{% url 'basic:index' %}"> 工具首页</a>
+</li>  
+<li class="nav-item" style="text-align:center;">
+    <a class="nav-link {% if  add_multi %} active{% else %}{% endif %}" href="{% url 'basic:add_multi' %}">
+    批量导入</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+<a class="nav-link {% if  r  %} active{% else %}{% endif %}" href="{% url 'basic:r' %}">
+    采购决策</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+<a class="nav-link {% if  csv  %} active{% else %}{% endif %}" href="{% url 'basic:csv' %}">
+    导出管理</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+<a class="nav-link {% if  cate  %} active{% else %}{% endif %}" href="{% url 'basic:cate' %}">
+    品类</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+<a class="nav-link {% if  cpmuser  %} active{% else %}{% endif %}" href="{% url 'basic:cpmuser' %}">
+    用户管理</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+<a class="nav-link {% if  brand  %} active{% else %}{% endif %}" href="{% url 'basic:brand' %}">
+    品牌</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+    <a class="nav-link {% if  supplier  %} active{% else %}{% endif %}" href="{% url 'basic:supplier' %}">供应商</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+    <a class="nav-link {% if  avenue  %} active{% else %}{% endif %}" href="{% url 'basic:avenue' %}">渠道</a>
+</li>
+<li class="nav-item" style="text-align:center;">
+    <a class="nav-link {% if  shop  %} active{% else %}{% endif %}" href="{% url 'basic:shop' %}">店铺</a>
+</li>
+<li class="nav-item nav-dropdown " style="text-align:center;">
+    <a class="nav-link nav-dropdown-toggle" href="#">标签</a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+            <a class="nav-link {% if  changjing  %} active{% else %}{% endif %}" href="{% url 'basic:changjing' %}">场景</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link {% if  dingwei  %} active{% else %}{% endif %}" href="{% url 'basic:dingwei' %}">定位</a>
+        </li>
+
+
+    </ul>
+</li>
+{% endblock %}
+
+{% block stylesheet %}
+<style>
+.top-bar{
+    height: 35px;
+    padding-top: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+.bg-tabel-cpm{
+    background-color: #c5d3ad;
+}
+</style>
+    {% block cate_stylesheet %}
+    {% endblock cate_stylesheet %}
+{% endblock stylesheet %}
+{% block content %}
+<div class="container-fluid" >
+    <div class="top-bar" >
+        <div class=" pull-left text-left" >{{msg}}</div>
+    </div>
+    {% block basic_content %}
+    {% endblock basic_content %}
+</div>
+{% endblock %}
+{% block modal %}
+{% endblock modal %}
+{% block js %}
+    <script src="{% static 'js/basic/basic.js' %}"></script>
+    {% block basic_js %}
+    {% endblock basic_js %}
+{% endblock js %}
+
+
+

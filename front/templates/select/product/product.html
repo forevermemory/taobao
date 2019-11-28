@@ -1,0 +1,54 @@
+{% extends "select/product/product_base.html" %}
+
+
+{% block stylesheet %}
+
+<link href="{% static 'css/bootstrap-multiselect.css' %}" rel="stylesheet"> 
+
+<link href="{% static 'css/product/product_index.css' %}" rel="stylesheet"> 
+{% endblock stylesheet %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="top-bar">
+        <div class=" pull-left text-left">{{msg}}</div>
+        <!-- <div class="pull-right"><span class="cpm-input-title-span">*</span>为必填选项</div> -->
+    </div>
+       <div class="container-fluid cpm-multi-content">
+            <div class="cpm-multi-body">
+                {% for tag in tags %}
+                <!-- 流程导航 -->
+                <div class="card">
+                    <div class="card-header" {% if forloop.counter < 2 %}  style="border: none;"{% else %}{% endif %} >
+
+                        {{tag.name}} 
+                    </div>
+                    <div class="card-body" >
+                        <div class="row mb-3">
+                            
+                            {% for a in  tag.val%}
+                            <!-- start -->
+                            <div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-4 card-body-s" >
+                                <a href="#" >
+                                        <div class="bg-gray-100 theme-color w-75 rounded mb-2">
+                                            <h6 >{{a}}</h6>
+                                        </div>
+                                </a>
+                            </div>
+                            <!-- end -->
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- 流程导航 end-->
+                {% endfor %}
+            </div>
+       </div>
+</div>
+<!-- modal -->
+<!-- Large modal   data-toggle="modal" data-target="#selectModel"-->
+
+
+{% endblock %}
+

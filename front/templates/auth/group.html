@@ -1,0 +1,98 @@
+{% extends "auth/auth_base.html" %}
+
+
+{% block basic_content %}
+<!-- 右面创建按钮 start-->
+<div class="row" >
+    <div class="col-lg-12 pull-left">
+        
+        <!-- 搜索 -->
+        <div class="input-group ">
+                <div class="col-lg-9">
+                    <button class="btn btn-success"  style="height: 40px;" onclick="addGroupModalOpenEvent(this)">添加分组</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- 右面创建按钮 end-->
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header" style="border: none;">
+                </div>
+                <div class="card-body">
+                    <table class=" table table-responsive-sm table-bordered  table-sm cpmTable">
+                        <thead class="bg-default bg-tabel-cpm">
+                            <tr>                                                      
+                                <th class="text-center" >编号</th>                            
+                                <th class="text-center" >名称</th>                            
+                                <th class="text-center">操作</th>                            
+                            </tr>                             
+                        </thead>
+                        <tbody>
+                            {% for item in  items %}
+                            <tr>
+                                <td class="text-center">{{forloop.counter}}</td>
+                                <td class="text-center">{{item.name}}</td>
+                                <td class="text-center">
+                                    <a href="javascript:void(0);" onclick="editGroup(this)" data-id="{{item.id}}" data-name="{{item.name}}"> 编辑</a>  |
+                                    <a href="javascript:void(0);" onclick="addGroupMember(this)" data-id="{{item.id}}" data-name="{{item.name}}"> 添加员工</a> 
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                    {% include 'page.html' %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock basic_content %}
+
+
+
+
+
+{% block modal %}
+
+<div class="modal" id="addGroupModal" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="groupTitle">添加分组</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+        <!-- modal start -->
+        <form class="form-horizontal" action="" method="post" >
+            {% csrf_token %}
+            <input type="hidden" name="id" id="addgroupHiddenInputId" value="" />  
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="groupName">分组名称</label>
+                <div class="col-md-9">
+                    <input class="form-control" id="groupName" type="text" name="group" >
+                    <span class="help-block text-danger alertMsg"></span>
+                </div>
+            </div>
+        </form>
+        <!-- modal end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick=addgroupCloseEvent(this) id="addgroupCloseBtn">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock modal %}
+
+{% block basic_js %}
+    <script src="{% static 'js/auth/group.js' %}"></script>
+
+{% endblock basic_js %}
